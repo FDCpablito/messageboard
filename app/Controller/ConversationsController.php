@@ -53,6 +53,8 @@ class ConversationsController extends AppController {
 				'status' => 'failed', 
 				'message' => 'Failed to send message'
 			]);
+
+			// something
 		}
 	}
 
