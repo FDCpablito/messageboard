@@ -33,5 +33,5 @@
         </div>
     <?php endforeach; ?>
 <?php else: ?>
-    <p>No profile data found for the current user.</p>
+    <p class="text-center">No profile data found for the current user.</p>
 <?php endif; ?>

@@ -56,7 +56,12 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	.ui-datepicker {
         background-color: #fff;
     }
-
+	.card {
+		border: 0px !important;
+	}
+	.card-header {
+		background-color: white !important;
+	}
 </style>
 <body>
 	<div id="container">
@@ -85,9 +90,6 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 				<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav ml-auto">
 					<?php if ($logged_in) : ?>
-						<li class="nav-item">
-							<span class="nav-link"><?php echo 'Welcome | ' . $current_user['name']; ?></span>
-						</li>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								Messages
