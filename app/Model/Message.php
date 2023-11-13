@@ -58,4 +58,15 @@ class Message extends AppModel {
 			'order' => ''
 		)
 	);
+
+	/**
+	 * hasMany
+	 */
+		public $hasMany = array(
+			'Conversation' => array(
+				'className' => 'Conversation',
+				'foreignKey' => 'message_id',
+				'dependent' => true, // This will delete associated conversations when a message is deleted
+			)
+		);
 }

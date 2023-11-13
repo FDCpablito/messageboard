@@ -20,7 +20,7 @@ class UsersController extends AppController {
 				}
 				$this->redirect($this->Auth->redirect());
 			} else {
-				$this->Session->setFlash('Your username/password is incocorrect');
+				$this->Session->setFlash('Your username/password is incorrect');
 			}
 		} 
 	}
