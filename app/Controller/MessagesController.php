@@ -70,7 +70,6 @@ class MessagesController extends AppController {
 	public function delete($id) {
 		$this->autoRender = false;
 
-
 		$data = $this->Message->findById($id);
 		// TODO: delete message by id
 			if($this->request->is('post')) {

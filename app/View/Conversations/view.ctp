@@ -78,7 +78,7 @@
                     messageBox.html('');
                     const userId = messageBox.data('user-id');
 
-                    
+
 
                     // TODO: Display the conversation
                     response.forEach((element, index) => {
