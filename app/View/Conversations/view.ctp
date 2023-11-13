@@ -7,7 +7,8 @@
                     'url' => ['controller' => 'Conversations', 'action' => 'add'],
                 ]);
                 echo $this->Form->input('message', [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    'id' => 'message-input'
                 ]);
                 echo $this->Form->button('Send Message', [
                     'type' => 'button', 
@@ -29,6 +30,11 @@
                 </div>
                 Loading ...
             </div>
+            <div class="row justify-content-center">
+                <a href="#" class="btn text-primary" id="more-conversation">
+                    Show More
+                </a>
+            </div>
         </div>        
     </div>
 
@@ -36,7 +42,7 @@
 
 <script>
     $(document).ready(function() {
-        setInterval(fetchMessages, 5000);
+        setInterval(fetchMessages, 2000);
         $('#submit-btn').click(function() {
             fetchMessages();
             var formData = $('#conversation-form').serializeArray();
@@ -47,6 +53,7 @@
                 url: $('#conversation-form').attr('action'),
                 data: formData,
                 success: function(response) {
+                    $('#message-input').val(' ');
                     // Handle the success response
                     console.log(response);
                 },
@@ -58,18 +65,22 @@
             
         });
 
+        let numberConvo = 10;
         function fetchMessages() {
             var baseUrl = '<?php echo $this->Html->url('/'); ?>';
             var messageId = $('#message-box').data('message-id');
             $.ajax({
                 type: 'GET',
-                url: baseUrl + 'messageboard/Conversations/fetch/' + messageId,
+                url: baseUrl + 'messageboard/Conversations/fetch/' + messageId + '/' + numberConvo,
                 dataType: 'json',
                 success: function(response) {
                     const messageBox = $('#message-box');
                     messageBox.html('');
                     const userId = messageBox.data('user-id');
 
+                    
+
+                    // TODO: Display the conversation
                     response.forEach((element, index) => {
                         const newRow = $('<div>', {
                             'class': 'row col-12 justify-content-center p-1 mb-2',
@@ -122,6 +133,7 @@
                         chatBox.append(messageElement);
                         chatBox.append(timeHolder);
 
+                        // * conversation placement
                         if (userId == element.Conversation.sender_id) {
                             rightColumn.append(chatBox)
                         } else {
@@ -137,5 +149,10 @@
                 }
             });
         }
+
+        $('#more-conversation').click(function (e) {
+            e.preventDefault();
+            numberConvo += numberConvo;
+        });
     });
 </script>

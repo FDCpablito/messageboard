@@ -34,6 +34,9 @@
 	//TODO: enable fetch conversation 
 	Router::connect('/messageboard/Conversations/fetch/*', array('controller' => 'conversations', 'action' => 'fetch'));
 
+	// TODO: delete messages and converstation
+	Router::connect('/messageboard/Messages/delete/*', array('controller' => 'messages', 'action' => 'delete'));
+
 
 /**
  * Load all plugin routes. See the CakePlugin documentation on

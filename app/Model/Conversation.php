@@ -64,6 +64,13 @@ class Conversation extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
+		'Message' => array(
+			'className' => 'Message',
+			'foreignKey' => 'message_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
 		'Sender' => array(
 			'className' => 'User',
 			'foreignKey' => 'sender_id',

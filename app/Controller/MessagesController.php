@@ -66,4 +66,21 @@ class MessagesController extends AppController {
 		];	
 		return ($this->Conversation->save($data)) ? true : false;
 	}
+
+	public function delete($id) {
+		$this->autoRender = false;
+
+
+		$data = $this->Message->findById($id);
+		// TODO: delete message by id
+			if($this->request->is('post')) {
+				$this->Message->id = $id;
+				if ($this->Message->delete($this->request->data)) {
+					echo json_encode([
+						'status' => 'success',
+						'message' => 'Data deleted successfully'
+					]);
+				}
+			}
+	}
 }

@@ -53,12 +53,12 @@ class ConversationsController extends AppController {
 				'status' => 'failed', 
 				'message' => 'Failed to send message'
 			]);
-
-			// something
 		}
 	}
 
-	public function fetch($messageId = null) {
+	public function fetch($messageId = null, $numberConvo) {
+		$numberConvo = ($numberConvo == null) ? 3: $numberConvo;
+
 		$this->autoRender = false;
 	
 		$conditions = [];
@@ -68,11 +68,10 @@ class ConversationsController extends AppController {
 	
 		$conversations = $this->Conversation->find('all', [
 			'conditions' => $conditions,
-			'limit' => 10,
+			'limit' => $numberConvo,
 			'order' => ['Conversation.id' => 'DESC']
 		]);
 	
 		echo json_encode($conversations);
 	}
-	
 }
