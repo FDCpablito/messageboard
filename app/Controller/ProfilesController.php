@@ -69,7 +69,7 @@ class ProfilesController extends AppController {
 				$extension = explode('.', $this->request->data['Profile']['profile']['name'])[count($explode) - 1];
 				$fileName = date('m-m-y') .'-'. $this->Auth->user('id') .'-'.time().'.'.$extension;
 			
-				$currentProfile = $profileData['Profile']['profile'];
+				$currentProfile = (empty($profileData)) ? null : $profileData['Profile']['profile'] ;
 			if ($hasUserID == false) {
 				// TODO: upload photo 
 					$uploadFile = $this->uploadProfile(
@@ -88,11 +88,13 @@ class ProfilesController extends AppController {
 							$newUserPassword,
 							$newUserName
 						]);
-					$this->Session->setFlash('Profile Added');
+					$this->Session->setFlash('Profile Updated!');
+					$this->redirect(array('action' => 'view', $id));
 				} else {
 					$this->Session->error('Unable to update your profile. Please try again.');
 				}
 			} else {
+				debug($currentProfile);
 				$uploadFile = $this->uploadProfile(
 					$this->request->data['Profile']['profile'], 
 					$fileName,
@@ -115,8 +117,8 @@ class ProfilesController extends AppController {
 							$newUserPassword,
 							$newUserName
 						]);
-					$this->Session->setFlash('Profile update!');
-						
+					$this->Session->setFlash('Profile Added!');
+					$this->redirect(array('action' => 'view', $id));	
                 } else {
                     // $this->Session->setFlash('Profile update failed.');
 					$this->Session->setFlash('Profile update failed!');
@@ -167,9 +169,9 @@ class ProfilesController extends AppController {
 			}
 			// TODO: Delete the current saved image if it exists
 			$currentImagePath = $uploadPath . $currentFileName;
-			if (file_exists($currentImagePath)) {
+			if (is_file($currentImagePath)) {
 				unlink($currentImagePath);
-			}
+			} 
 			return (move_uploaded_file($file['tmp_name'], $uploadPath . $filename)) ? true : false;
 		}
 

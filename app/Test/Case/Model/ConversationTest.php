@@ -13,8 +13,9 @@ class ConversationTest extends CakeTestCase {
  */
 	public $fixtures = array(
 		'app.conversation',
-		'app.sender',
-		'app.receiver'
+		'app.message',
+		'app.user',
+		'app.sender'
 	);
 
 /**

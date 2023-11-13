@@ -7,8 +7,12 @@
                 <div class="card-body">
                     <?php 
                         echo $this->Form->create();
-                        echo $this->Form->input('email');
-                        echo $this->Form->input('password');
+                        echo $this->Form->input('email', array(
+                            'class' => 'form-control'
+                        ));
+                        echo $this->Form->input('password', array(
+                            'class' => 'form-control'
+                        ));
                         echo $this->Form->end('Login');
                     ?>
                 </div>
