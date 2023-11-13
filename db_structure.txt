@@ -32,12 +32,14 @@ Database Table and Structure:
     ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
     CREATE TABLE `conversations` (
-        `id` int(11) NOT NULL, -- set auto_increment | primary key
+        `id` int(11) NOT NULL,
         `message_id` int(11) NOT NULL,
         `sender_id` int(11) NOT NULL,
         `receiver_id` int(11) NOT NULL,
         `message` text NOT NULL,
         `created` datetime NOT NULL,
-        `modified` datetime NOT NULL
+        `modified` datetime NOT NULL,
+        `created_ip` varchar(255) NOT NULL,
+        `modified_ip` varchar(255) NOT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
