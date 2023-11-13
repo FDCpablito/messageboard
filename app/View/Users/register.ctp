@@ -7,11 +7,20 @@
             <div class="card-body">
                 <?php
                     echo $this->Form->create('User');
-                    echo $this->Form->input('name');
-                    echo $this->Form->input('email');
-                    echo $this->Form->input('password');
+                    echo $this->Form->input('name', array(
+                        'class' => 'form-control'
+                    ));
+                    echo $this->Form->input('email', array(
+                        'class' => 'form-control'
+                    ));
+                    echo $this->Form->input('password', array(
+                        'class' => 'form-control'
+                    ));
                     echo $this->Form->error('password');
-                    echo $this->Form->input('password_confirm', array('type' => 'password'));
+                    echo $this->Form->input('password_confirm', array(
+                        'type' => 'password',
+                        'class' => 'form-control'
+                    ));
                     echo $this->Form->error('password_confirm');
                     echo $this->Form->end('Register');
                 ?>

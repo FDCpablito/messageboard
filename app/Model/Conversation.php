@@ -3,6 +3,7 @@ App::uses('AppModel', 'Model');
 /**
  * Conversation Model
  *
+ * @property Message $Message
  * @property Sender $Sender
  * @property Receiver $Receiver
  */
@@ -14,12 +15,12 @@ class Conversation extends AppModel {
  * @var array
  */
 	public $validate = array(
-		'sender_id' => array(
+		'message_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
-				'required' => true,
+				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
@@ -29,7 +30,7 @@ class Conversation extends AppModel {
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
-				'required' => true,
+				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
@@ -39,7 +40,7 @@ class Conversation extends AppModel {
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
-				'required' => true,
+				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
@@ -49,7 +50,27 @@ class Conversation extends AppModel {
 				'rule' => array('notBlank'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
-				'required' => true,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'created_ip' => array(
+			'notBlank' => array(
+				'rule' => array('notBlank'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'modified_ip' => array(
+			'notBlank' => array(
+				'rule' => array('notBlank'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
@@ -72,8 +93,15 @@ class Conversation extends AppModel {
 			'order' => ''
 		),
 		'Sender' => array(
-			'className' => 'User',
+			'className' => 'Users',
 			'foreignKey' => 'sender_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'Receiver' => array(
+			'className' => 'Users',
+			'foreignKey' => 'receiver_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
@@ -84,6 +112,35 @@ class Conversation extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		),
+		)
 	);
+
+/**
+ * beforeSave function
+ *
+ * @var array
+ */
+	public function beforeSave($options = array()) {
+        if (!$this->id) {
+            $this->data[$this->alias]['created_ip'] = $this->getClientIp();
+        }
+
+        $this->data[$this->alias]['modified_ip'] = $this->getClientIp();
+
+        return parent::beforeSave($options);
+    }
+
+    private function getClientIp() {
+		$ip = '';
+
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } else {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+
+        return $ip;
+    }
 }

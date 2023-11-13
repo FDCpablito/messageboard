@@ -7,7 +7,7 @@
         <div class="col-5 p-4">
             <?php if (!empty($messages)) : ?>
                 <?php foreach ($messages as $key => $value) :?>
-                    <div class="card mb-1" id="messageBox-<?php echo $value['Message']['id']; ?>"> 
+                    <div class="card shadow mb-1" id="messageBox-<?php echo $value['Message']['id']; ?>"> 
                         <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <strong><?php echo $this->Html->link($value['User']['name'], ['controller' => 'Conversations', 'action' => 'view', $value['Message']['id']]) ?></strong><br>
