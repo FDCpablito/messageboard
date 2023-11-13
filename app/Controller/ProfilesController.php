@@ -9,11 +9,6 @@ class ProfilesController extends AppController {
 		$this->loadComponent('Flash');
 	}
 
-
-	public function index() {
-
-	}
-
 	public function view() {
 		$data = $this->Profile->find('all', [
 			'conditions' => ['user_id' => $this->Auth->user('id')],
@@ -38,11 +33,20 @@ class ProfilesController extends AppController {
 
 	public function edit() {
 		if ($this->request->is(['patch', 'post', 'put'])) {
+			// TODO: validate password inputs
+				if ($this->validatePassword($this->request->data['Profile']['new password'], 
+					$this->request->data['Profile']['confirm password']) == false) {
+					debug($this->request->data['Profile']);
+					$this->Session->setFlash('Password input not match');
+				}
+
 			// TODO: Get the currently authenticated user's ID
 				$userId = $this->Auth->user('id');
+				$newUserName = ($this->request->data['Profile']['name'] == null) ? $this->Auth->user('name') : $this->request->data['Profile']['name'];
+				$newUserEmail = ($this->request->data['Profile']['email'] == null) ? $this->Auth->user('email') : $this->request->data['Profile']['email'];
+				$newUserPassword = $this->request->data['Profile']['new password'];
 
 			// TODO: load user model and initiate save
-				$newName = ($this->request->data['Profile']['name'] == null) ? $this->Auth->user('name') : $this->request->data['Profile']['name'];
 				$this->loadModel('Users');
 				$this->Users->id = $userId;
 				$this->request->data['Profile']['user_id'] = $userId;
@@ -63,7 +67,14 @@ class ProfilesController extends AppController {
 				$uploadFile = $this->uploadProfile($this->request->data['Profile']['profile'], $fileName);
 				$this->request->data['Profile']['profile'] = $fileName;	
 				if ($this->Profile->save($this->request->data)) {
-					$this->Users->save(['name' => $newName]);
+					/**
+					 * TODO: Update users table
+					 */
+						$this->updateUsersTable([
+							$newUserEmail,
+							$newUserPassword,
+							$newUserName
+						]);
 					$this->Session->setFlash('Profile Added');
 				} else {
 					$this->Session->error('Unable to update your profile. Please try again.');
@@ -79,10 +90,16 @@ class ProfilesController extends AppController {
 					$this->Profile->id = $profile['Profile']['id'];
 
                 if ($this->Profile->save($this->request->data)) {
-                    // TODO: Profile data updated successfully
-						// $this->Session->setFlash('Profile updated.');
-						$this->Session->setFlash('Profile update!');
-						$this->Users->save(['name' => $newName]);
+					/**
+					 * TODO: Update users table
+					 */
+						$this->updateUsersTable([
+							$newUserEmail,
+							$newUserPassword,
+							$newUserName
+						]);
+					$this->Session->setFlash('Profile update!');
+						
                 } else {
                     // $this->Session->setFlash('Profile update failed.');
 					$this->Session->setFlash('Profile update failed!');
@@ -99,6 +116,34 @@ class ProfilesController extends AppController {
 			}
 	}
 
+	/**
+	 * TODO: this will update data in the users table
+	 */
+		private function updateUsersTable($data = []) {
+			$this->loadModel('Users');
+			$this->Users->id = $this->Auth->user('id');
+			
+			$email = $data[0];
+			$password = ($data[1] == null) ? $user['User']['password'] : $data[1];
+			$name = $data[2];
+
+			//TODO: update the current logged in name
+				$current_user['name'] = $name;
+			// TODO:Update the entity fields
+				return ($this->Users->save([
+					'email' => $email,
+					'password' => AuthComponent::password($password),
+					'name' => $name,
+				])) ? true : false;
+		}
+	
+
+	/**
+	 * TODO: validate password inputs
+	 */
+		public function validatePassword($newPassword, $confirmPassword) {
+			return (strtolower($newPassword) == strtolower($confirmPassword)) ? true : false;
+		}
 	/**
 	 * TODO: enable uplaod file
 	 */

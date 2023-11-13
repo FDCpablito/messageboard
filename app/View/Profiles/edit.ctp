@@ -1,78 +1,163 @@
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-5">
-            <?php
-                if (isset($profileData)) {
-                    echo $this->Form->create('Profile', ['type' => 'file']);
-                    echo $this->Html->image('/profile//'.$profileData['Profile']['profile'], [
-                        'alt' => 'Image',
-                        'height' => '200',
-                        'width' => '200',
-                        'id'=> 'imagePreview'
-                    ]);
-                
-                    echo $this->Form->input('profile', [
+        <div class="col-10">
+            <div class="card shadow">
+                <div class="card-header bg-white">
+                    Edit Profile / Account Details
+                </div>
+                <div class="card-body">
+                    <?php if(isset($profileData)) :?>
+                    <?php echo $this->Form->create('Profile', [
                         'type' => 'file',
-                        'id' => 'imageInput',
-                        'accepts' => '.jpg, .jpeg, .gif, .png'
-                    ]);
-                    echo $this->Form->input('name', [
-                        'value' => $current_user['name'],
-                        // 'required' => true
-                    ]);
-                    echo $this->Form->input('birthdate', [
-                        'type' => 'text',
-                        'id' => 'datepicker',
-                        'value' => $profileData['Profile']['birthdate']
-                    ]);
-                    echo $this->Form->input('gender', [
-                        'type' => 'radio',
-                        'options' => [
-                            '0' => 'Male',
-                            '1' => 'Female',
-                        ],
-                        'default' => $profileData['Profile']['gender']
-                    ]);
-                    echo $this->Form->input('hubby', [
-                        'type' => 'textarea',
-                        'value' => $profileData['Profile']['hubby']
-                    ]);
-                    echo $this->Form->end('Update');
+                    ]); ?>
+                    <div class="row justify-content-center">
+                        <div class="col-6 p-1">
+                            <?php 
+                                echo $this->Html->image('/profile//'.$profileData['Profile']['profile'], [
+                                    'alt' => 'Image',
+                                    'height' => '200',
+                                    'width' => '200',
+                                    'id'=> 'imagePreview',
+                                    'class' => 'border'
+                                ]);
 
-                } else {
-                    echo $this->Form->create('Profile', ['type' => 'file']);
-                    echo $this->Html->image('https://t4.ftcdn.net/jpg/02/29/75/83/240_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg', [
-                        'alt' => 'Image',
-                        'height' => '200',
-                        'width' => '200',
-                        'id' => 'imagePreview'
-                    ]);
+                                //* these are from the user table
+                                echo $this->Form->input('name', [
+                                    'value' => $profileData['User']['name'],
+                                    'required' => true,
+                                    'class' => 'form-control'
+                                ]);
 
-                    echo $this->Form->input('profile', [
-                        'type' => 'file',
-                        'id' => 'imageInput',
-                        'accepts' => '.jpg, .jpeg, .gif, .png'
-                    ]);
-                    echo $this->Form->input('name', [
-                        'value' => $current_user['name']
-                    ]);
-                    echo $this->Form->input('birthdate', [
-                        'type' => 'text',
-                        'id' => 'datepicker',
-                    ]);
-                    echo $this->Form->input('gender', [
-                        'type' => 'radio',
-                        'options' => [
-                            '0' => 'Male',
-                            '1' => 'Female',
-                        ],
-                    ]);
-                    echo $this->Form->input('hubby', [
-                        'type' => 'textarea',
-                    ]);
-                    echo $this->Form->end('Update');
-                }
-            ?>  
+                                echo $this->Form->input('email', [
+                                    'value' => $profileData['User']['email'],
+                                    'required' => true,
+                                    'class' => 'form-control'
+                                ]);
+
+                                echo $this->Form->input('new password', [
+                                    'required' => true,
+                                    'class' => 'form-control',
+                                    'type' => 'password'
+                                ]);
+
+                                echo $this->Form->input('confirm password', [
+                                    'required' => true,
+                                    'class' => 'form-control',
+                                    'type' => 'password'
+                                ]);
+                            ?>
+                        </div>
+                        <div class="col-6 p-1">
+                            <?php 
+                                 echo $this->Form->input('profile', [
+                                    'type' => 'file',
+                                    'id' => 'imageInput',
+                                    'accepts' => '.jpg, .jpeg, .gif, .png',
+                                    'class' => 'form-control'
+                                ]);
+
+                                
+                                echo $this->Form->input('birthdate', [
+                                    'type' => 'text',
+                                    'id' => 'datepicker',
+                                    'value' => $profileData['Profile']['birthdate'],
+                                    'class' => 'form-control'
+                                ]);
+                                echo $this->Form->input('gender', [
+                                    'type' => 'radio',
+                                    'options' => [
+                                        '0' => 'Male',
+                                        '1' => 'Female',
+                                    ],
+                                    'default' => $profileData['Profile']['gender'],
+                                    'class' => 'form-control'
+                                ]);
+                                
+                                echo $this->Form->input('hubby', [
+                                    'type' => 'textarea',
+                                    'value' => $profileData['Profile']['hubby'],
+                                    'class' => 'form-control'
+                                ]);
+                                echo $this->Form->end('Update');
+                            ?>
+                        </div>
+                    </div>
+                    <?php else : ?>
+                        <?php echo $this->Form->create('Profile', [
+                            'type' => 'file',
+                        ]); ?>
+                        <div class="row justify-content-center">
+                            <div class="col-6 p-1">
+                                <?php 
+                                    echo $this->Html->image('https://t4.ftcdn.net/jpg/02/29/75/83/240_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg', [
+                                        'alt' => 'Image',
+                                        'height' => '200',
+                                        'width' => '200',
+                                        'id'=> 'imagePreview',
+                                        'class' => 'border'
+                                    ]);
+
+                                    //* these are from the user table
+                                    echo $this->Form->input('name', [
+                                        'value' => $profileData['name'],
+                                        'required' => true,
+                                        'class' => 'form-control'
+                                    ]);
+
+                                    echo $this->Form->input('email', [
+                                        'value' => $profileData['email'],
+                                        'required' => true,
+                                        'class' => 'form-control'
+                                    ]);
+
+                                    echo $this->Form->input('new password', [
+                                        'required' => true,
+                                        'class' => 'form-control',
+                                        'type' => 'password'
+                                    ]);
+
+                                    echo $this->Form->input('confirm password', [
+                                        'required' => true,
+                                        'class' => 'form-control',
+                                        'type' => 'password'
+                                    ]);
+                                ?>
+                            </div>
+                            <div class="col-6 p-1">
+                                <?php 
+                                    echo $this->Form->input('profile', [
+                                        'type' => 'file',
+                                        'id' => 'imageInput',
+                                        'accepts' => '.jpg, .jpeg, .gif, .png',
+                                        'class' => 'form-control'
+                                    ]);
+
+                                    
+                                    echo $this->Form->input('birthdate', [
+                                        'type' => 'text',
+                                        'id' => 'datepicker',
+                                        'class' => 'form-control'
+                                    ]);
+                                    echo $this->Form->input('gender', [
+                                        'type' => 'radio',
+                                        'options' => [
+                                            '0' => 'Male',
+                                            '1' => 'Female',
+                                        ],
+                                        'class' => 'form-control'
+                                    ]);
+                                    
+                                    echo $this->Form->input('hubby', [
+                                        'type' => 'textarea',
+                                        'class' => 'form-control'
+                                    ]);
+                                    echo $this->Form->end('Update');
+                                ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
         </div>
     </div>
 </div>
