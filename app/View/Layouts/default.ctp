@@ -97,11 +97,14 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 								<?php echo $this->Html->link('Sent Box', array('controller' => 'messages', 'action' => 'sent'), array('class' => 'dropdown-item')); ?>
 							</div>
 						</li>
-						<li class="nav-item">
-							<?php echo $this->Html->link('Edit Profile', array('controller' => 'profiles', 'action' => 'edit'), array('class' => 'nav-link')); ?>
-						</li>
-						<li class="nav-item">
-							<?php echo $this->Html->link('View Profile', array('controller' => 'profiles', 'action' => 'view'), array('class' => 'nav-link')); ?>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="profilesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Profiles
+							</a>
+							<div class="dropdown-menu" aria-labelledby="profilesDropdown">
+								<?php echo $this->Html->link('Edit Profile', array('controller' => 'profiles', 'action' => 'edit'), array('class' => 'dropdown-item')); ?>
+								<?php echo $this->Html->link('View Profile', array('controller' => 'profiles', 'action' => 'view'), array('class' => 'dropdown-item')); ?>
+							</div>
 						</li>
 						<li class="nav-item">
 							<?php echo $this->Html->link('Logout', array('controller' => 'users', 'action' => 'logout'), array('class' => 'nav-link')); ?>
