@@ -32,11 +32,18 @@ class ProfilesController extends AppController {
 	}
 
 	public function edit() {
+		$profileData = $this->Profile->find('first', array(
+			'conditions' => array('Profile.user_id' => $this->Auth->user('id'))
+		));
+
+		if ($profileData) {
+			$this->set('profileData', $profileData);
+		}
+
 		if ($this->request->is(['patch', 'post', 'put'])) {
 			// TODO: validate password inputs
 				if ($this->validatePassword($this->request->data['Profile']['new password'], 
 					$this->request->data['Profile']['confirm password']) == false) {
-					debug($this->request->data['Profile']);
 					$this->Session->setFlash('Password input not match');
 				}
 
@@ -62,9 +69,15 @@ class ProfilesController extends AppController {
 				$extension = explode('.', $this->request->data['Profile']['profile']['name'])[count($explode) - 1];
 				$fileName = date('m-m-y') .'-'. $this->Auth->user('id') .'-'.time().'.'.$extension;
 			
+				$currentProfile = $profileData['Profile']['profile'];
 			if ($hasUserID == false) {
+				// TODO: upload photo 
+					$uploadFile = $this->uploadProfile(
+						$this->request->data['Profile']['profile'], 
+						$fileName,
+						$currentProfile
+					);
 				// TODO: modify profile name
-				$uploadFile = $this->uploadProfile($this->request->data['Profile']['profile'], $fileName);
 				$this->request->data['Profile']['profile'] = $fileName;	
 				if ($this->Profile->save($this->request->data)) {
 					/**
@@ -80,7 +93,11 @@ class ProfilesController extends AppController {
 					$this->Session->error('Unable to update your profile. Please try again.');
 				}
 			} else {
-				$uploadFile = $this->uploadProfile($this->request->data['Profile']['profile'], $fileName);
+				$uploadFile = $this->uploadProfile(
+					$this->request->data['Profile']['profile'], 
+					$fileName,
+					$currentProfile
+				);
 				$profile = $this->Profile->find('first', array(
 					'conditions' => array('Profile.user_id' => $userId)
 				));
@@ -106,14 +123,7 @@ class ProfilesController extends AppController {
                 }
 			}
 		}
-		// TODO: returns / sets the profile data of logged in user
-			$profileData = $this->Profile->find('first', array(
-				'conditions' => array('Profile.user_id' => $this->Auth->user('id'))
-			));
-
-			if ($profileData) {
-				$this->set('profileData', $profileData);
-			}
+			
 	}
 
 	/**
@@ -147,7 +157,7 @@ class ProfilesController extends AppController {
 	/**
 	 * TODO: enable uplaod file
 	 */
-		private function uploadProfile($file, $fileName) {
+		private function uploadProfile($file, $fileName, $currentFileName) {
 			// TODO: Define the target directory where you want to save the uploaded files
 			$uploadPath = WWW_ROOT . 'profile' . DS;
 			$filename = $fileName;
@@ -155,7 +165,11 @@ class ProfilesController extends AppController {
 			if (!file_exists($uploadPath)) {
 				mkdir($uploadPath, 0777, true);
 			}
-
+			// TODO: Delete the current saved image if it exists
+			$currentImagePath = $uploadPath . $currentFileName;
+			if (file_exists($currentImagePath)) {
+				unlink($currentImagePath);
+			}
 			return (move_uploaded_file($file['tmp_name'], $uploadPath . $filename)) ? true : false;
 		}
 
