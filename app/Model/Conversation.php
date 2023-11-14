@@ -133,4 +133,14 @@ class Conversation extends AppModel {
     private function getClientIp() {
 		return CakeRequest::clientIp();
     }
+
+	public function checkForUpdates() {
+        // Logic to check for updates, e.g., new messages
+		$newMessages = $this->Message->find('count', array(
+			'conditions' => array(
+				"DATE_FORMAT(Message.created, '%Y-%m-%d')" => date('Y-m-d')
+			)
+		));
+        return ($newMessages > 0) ? true : false;
+    }
 }

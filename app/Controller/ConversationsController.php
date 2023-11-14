@@ -30,7 +30,7 @@ class ConversationsController extends AppController {
 		if ($this->request->is('ajax')) {
 			$this->autoRender = false;
 			// TODO: validate data
-			$this->Conversation->create(); // Ensure you create a new record
+			$this->Conversation->create();
 			$conversationData = [
 				'message_id' => $this->request->data['messageId'],
 				'sender_id' => $this->Auth->user('id'),
@@ -74,4 +74,16 @@ class ConversationsController extends AppController {
 	
 		echo json_encode($conversations);
 	}
+
+	/**
+	 * TODO: check if there newly inserted data in the conversations
+	 */
+		public function checkUpdates() {
+			$this->autoRender = false;
+	
+			// TODO: check for updates in the database
+			$hasUpdates = $this->Conversation->checkForUpdates();
+	
+			echo json_encode(['hasUpdates' => $hasUpdates]);
+		}
 }

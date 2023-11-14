@@ -31,18 +31,29 @@
  */
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 
-	//TODO: enable fetch conversation 
-	Router::connect('/messageboard/Conversations/fetch/*', array('controller' => 'conversations', 'action' => 'fetch'));
+	/**
+	 * * These routers are for the conversations controller
+	 * ? they're accessed using ajax
+	 * ? they handle the interaction to the database using ajax
+	 */
+		// TODO: fetch new messages in the conversation
+		Router::connect('/messageboard/Conversations/fetch/*', array('controller' => 'conversations', 'action' => 'fetch'));
+		// TODO: check for updates in the conversations table / model
+		Router::connect('/messageboard/Conversation/checkForUpdates', array(
+			'controller' => 'conversations', 'actions' => 'checkUpdates'
+		));
 
-	// TODO: delete messages and converstation
-	Router::connect('/messageboard/Messages/delete/*', array('controller' => 'messages', 'action' => 'delete'));
-
-
-	// TODO: fetch sent box
-	Router::connect('/messageboard/Messages/fetchSentBox/*', array('controller' => 'messages', 'action', 'fetchSentBox'));
-
-	// TODO: fetch inbox
-	Router::connect('/messageboard/Messages/fetchInbox/*', array('controller' => 'messages', 'action', 'fetchInbox'));
+	/**
+	 * * These routers are for the messages controller
+	 * ? they're accessed using ajax
+	 * ? they handle the interaction to the database using ajax
+	 */
+		// TODO: delete messages and converstations under the message
+		Router::connect('/messageboard/Messages/delete/*', array('controller' => 'messages', 'action' => 'delete'));
+		// TODO: fetch sent box
+		Router::connect('/messageboard/Messages/fetchSentBox/*', array('controller' => 'messages', 'action', 'fetchSentBox'));
+		// TODO: fetch inbox
+		Router::connect('/messageboard/Messages/fetchInbox/*', array('controller' => 'messages', 'action', 'fetchInbox'));
 
 /**
  * Load all plugin routes. See the CakePlugin documentation on
