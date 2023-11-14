@@ -12,40 +12,26 @@
                         ]); ?>
                         <div class="row justify-content-center">
                             <div class="col-6 p-1">
-                                <?php 
-                                    echo $this->Html->image('/profile//'.$profileData['Profile']['profile'], [
-                                        'alt' => 'Image',
-                                        'height' => '200',
-                                        'width' => '200',
-                                        'id'=> 'imagePreview',
-                                        'class' => 'border'
-                                    ]);
-
-                                    //* these are from the user table
-                                    echo $this->Form->input('name', [
-                                        'value' => $profileData['User']['name'],
-                                        'required' => true,
-                                        'class' => 'form-control'
-                                    ]);
-
-                                    echo $this->Form->input('email', [
-                                        'value' => $profileData['User']['email'],
-                                        'required' => true,
-                                        'class' => 'form-control'
-                                    ]);
-
-                                    echo $this->Form->input('new password', [
-                                        'required' => true,
-                                        'class' => 'form-control',
-                                        'type' => 'password'
-                                    ]);
-
-                                    echo $this->Form->input('confirm password', [
-                                        'required' => true,
-                                        'class' => 'form-control',
-                                        'type' => 'password'
-                                    ]);
-                                ?>
+                               <div class="row justify-content-center" >
+                                    <?php 
+                                        echo $this->Html->image('/profile//'.$profileData['Profile']['profile'], [
+                                            'alt' => 'Image',
+                                            'height' => '200',
+                                            'width' => '200',
+                                            'id'=> 'imagePreview',
+                                            'class' => 'border'
+                                        ]);
+                                    ?>
+                               </div>
+                                <div class="row justify-content-center">
+                                    <?php 
+                                        echo $this->Html->link(
+                                            'Edit User',
+                                            ['controller' => 'Users', 'action' => 'edit'], // Replace $userId with the actual user ID
+                                            ['class' => 'btn btn-primary']
+                                        );
+                                    ?>
+                                </div>
                             </div>
                             <div class="col-6 p-1">
                                 <?php 
@@ -88,40 +74,26 @@
                         ]); ?>
                         <div class="row justify-content-center">
                             <div class="col-6 p-1">
-                                <?php 
-                                    echo $this->Html->image('https://t4.ftcdn.net/jpg/02/29/75/83/240_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg', [
-                                        'alt' => 'Image',
-                                        'height' => '200',
-                                        'width' => '200',
-                                        'id'=> 'imagePreview',
-                                        'class' => 'border'
-                                    ]);
-
-                                    //* these are from the user table
-                                    echo $this->Form->input('name', [
-                                        'value' => (isset($profileData['Users']['name'])) ? $profileData['Users']['name'] : $current_user['name'],
-                                        'required' => true,
-                                        'class' => 'form-control'
-                                    ]);
-
-                                    echo $this->Form->input('email', [
-                                        'value' => (isset($profileData['Users']['email'])) ? $profileData['Users']['email'] : $current_user['email'],
-                                        'required' => true,
-                                        'class' => 'form-control'
-                                    ]);
-
-                                    echo $this->Form->input('new password', [
-                                        'required' => true,
-                                        'class' => 'form-control',
-                                        'type' => 'password'
-                                    ]);
-
-                                    echo $this->Form->input('confirm password', [
-                                        'required' => true,
-                                        'class' => 'form-control',
-                                        'type' => 'password'
-                                    ]);
-                                ?>
+                                <div class="row justify-content-center">
+                                    <?php 
+                                        echo $this->Html->image('https://t4.ftcdn.net/jpg/02/29/75/83/240_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg', [
+                                            'alt' => 'Image',
+                                            'height' => '200',
+                                            'width' => '200',
+                                            'id'=> 'imagePreview',
+                                            'class' => 'border'
+                                        ]);
+                                    ?>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <?php
+                                        echo $this->Html->link(
+                                            'Edit User',
+                                            ['controller' => 'Users', 'action' => 'edit'], // Replace $userId with the actual user ID
+                                            ['class' => 'btn btn-primary']
+                                        );
+                                    ?>
+                                </div>
                             </div>
                             <div class="col-6 p-1">
                                 <?php 
