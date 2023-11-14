@@ -38,6 +38,9 @@
 	Router::connect('/messageboard/Messages/delete/*', array('controller' => 'messages', 'action' => 'delete'));
 
 
+	// TODO: fetch sent box
+	Router::connect('/messageboard/Messages/fetchSentBox/*', array('controller' => 'messages', 'action', 'fetchSentBox'));
+
 /**
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.

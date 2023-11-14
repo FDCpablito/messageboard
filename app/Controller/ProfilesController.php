@@ -72,10 +72,10 @@ class ProfilesController extends AppController {
 				// TODO: modify profile name
 				$this->request->data['Profile']['profile'] = $fileName;	
 				if ($this->Profile->save($this->request->data)) {
-					$this->Session->setFlash('Profile Updated!');
+					$this->Session->setFlash('Profile Updated!', 'default', array('class' => 'success'));
 					$this->redirect(array('action' => 'view', $userId));
 				} else {
-					$this->Session->error('Unable to update your profile. Please try again.');
+					$this->Session->setFlash('Unable to update your profile. Please try again.');
 				}
 			} else {
 				$uploadFile = $this->uploadProfile(
@@ -92,7 +92,7 @@ class ProfilesController extends AppController {
 					$this->Profile->id = $profile['Profile']['id'];
 
                 if ($this->Profile->save($this->request->data)) {
-					$this->Session->setFlash('Profile Added!');
+					$this->Session->setFlash('Profile Added!', 'default', array('class' => 'success'));
 					$this->redirect(array('action' => 'view', $userId));	
                 } else {
                     // $this->Session->setFlash('Profile update failed.');
