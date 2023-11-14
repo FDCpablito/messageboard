@@ -22,6 +22,7 @@ class MessagesController extends AppController {
 			'conditions' => [
 				'user_id' => $this->Auth->user('id'),
 			],
+			'limit' => 3,
 			'order' => ['Message.id' => 'DESC']
 		]);
 		$this->set('messages', $messages);
@@ -53,7 +54,7 @@ class MessagesController extends AppController {
 					$this->request->data['Message']['receiver'],
 					$this->request->data['Message']['message']
 				);	
-				$this->Session->setFlash('Message Sent');
+				$this->Session->setFlash('Message Sent', 'default', array('class' => 'success'));
 				return $this->redirect(array('action' => 'sent'));
 			} else {
 				$this->Session->setFlash('Failed to send message');
@@ -61,7 +62,6 @@ class MessagesController extends AppController {
 		}		
 	}
 
-	// TODO: save to conversation table
 	private function saveToConversation($messageId, $senderId, $receiver_id, $message) {
 		$this->loadModel('Conversation');
 		$data = [
@@ -71,7 +71,7 @@ class MessagesController extends AppController {
 			'message' => $message
 		];	
 		return ($this->Conversation->save($data)) ? true : false;
-	}
+}
 
 	public function delete($id) {
 		$this->autoRender = false;
@@ -88,4 +88,29 @@ class MessagesController extends AppController {
 				}
 			}
 	}
+
+	/**
+	 * TODO: fetch message based on number of given items
+	 */
+		public function fetchSentBox($userId, $limit) {
+			$this->autoRender = false;
+		
+			$limit = ($limit == null || $limit <= 0) ? 10 : $limit;
+		
+			$conditions = [];
+			if ($userId !== null) {
+				$conditions['user_id'] = $userId;
+			}
+		
+			$messages = $this->Message->find('all', [
+				'conditions' => $conditions,
+				'limit' => $limit,
+				'order' => [
+					'Message.id' => 'DESC'
+				]
+			]);
+
+			echo json_encode($messages);
+		}
+	
 }
