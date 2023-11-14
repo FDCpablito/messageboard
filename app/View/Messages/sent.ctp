@@ -68,6 +68,7 @@
         fetchMessages();
     });
 
+    
     let limit = 5;
     function fetchMessages() {
         var baseUrl = '<?php echo $this->Html->url('/'); ?>';

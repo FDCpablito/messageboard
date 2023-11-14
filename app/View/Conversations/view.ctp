@@ -112,12 +112,15 @@
                         const senderHolder = $('<div>', {
                             'class': `form-group d-flex justify-content-${ (userId == element.Conversation.sender_id) ? 'end' : 'begin' } align-items-center`,
                         });
+
                         const senderProfile = $('<img>', {
                             'src': baseUrl + `profile/${element.Profile.profile}`,
                             'class': 'rounded-circle',
                             'alt': 'Profile Image',
                             'height': '25',
-                            'width': '25'
+                            'width': '25',
+                            'id' : 'visit-profile',
+                            'data-id' : `${ element.Sender.id }`
                         });
 
                         senderHolder.append(senderProfile);
@@ -154,5 +157,12 @@
             e.preventDefault();
             numberConvo += numberConvo;
         });
+    });
+
+    $(document).on('click', '#visit-profile', function(e) {
+        e.preventDefault();
+        // alert($(this).data('id'));
+        var baseUrl = '<?php echo $this->Html->url('/'); ?>';
+        window.location.href = baseUrl + 'Profiles/userProfile/'+ $(this).data('id') ;
     });
 </script>

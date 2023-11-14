@@ -4,7 +4,7 @@
     </div>
     
     <div class="row justify-content-center">
-        <div class="col-5 p-4">
+        <div class="col-8 p-4">
             <?php if (!empty($messages)) : ?>
                 <?php foreach ($messages as $key => $value) :?>
                     <div class="card shadow mb-1" id="messageBox-<?php echo $value['Message']['id']; ?>"> 

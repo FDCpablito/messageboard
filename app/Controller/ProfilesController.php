@@ -126,12 +126,6 @@ class ProfilesController extends AppController {
 	
 
 	/**
-	 * TODO: validate password inputs
-	 */
-		public function validatePassword($newPassword, $confirmPassword) {
-			return (strtolower($newPassword) == strtolower($confirmPassword)) ? true : false;
-		}
-	/**
 	 * TODO: enable uplaod file
 	 */
 		private function uploadProfile($file, $fileName, $currentFileName) {
@@ -158,5 +152,15 @@ class ProfilesController extends AppController {
 				'conditions' => ['Profile.user_id' => $userId]
 			]);
 			return ($profile) ? true : false;
+		}
+
+	/**
+	 * TODO: visit user profile page
+	 */
+		public function userProfile($userId) {
+			$data = $this->Profile->find('all', [
+				'conditions' => ['user_id' => $userId],
+			]);
+			$this->set('data', $data);	
 		}
 }
