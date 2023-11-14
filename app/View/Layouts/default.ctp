@@ -104,6 +104,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 								Profiles
 							</a>
 							<div class="dropdown-menu" aria-labelledby="profilesDropdown">
+								<?php echo $this->Html->link('Account Settings', array('controller' => 'users', 'action' => 'edit'), array('class' => 'dropdown-item')); ?>
 								<?php echo $this->Html->link('Edit Profile', array('controller' => 'profiles', 'action' => 'edit'), array('class' => 'dropdown-item')); ?>
 								<?php echo $this->Html->link('View Profile', array('controller' => 'profiles', 'action' => 'view'), array('class' => 'dropdown-item')); ?>
 							</div>

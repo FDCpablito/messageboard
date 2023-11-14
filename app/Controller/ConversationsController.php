@@ -57,7 +57,7 @@ class ConversationsController extends AppController {
 	}
 
 	public function fetch($messageId = null, $numberConvo) {
-		$numberConvo = ($numberConvo == null) ? 3: $numberConvo;
+		$numberConvo = ($numberConvo == null) ? 10: $numberConvo;
 
 		$this->autoRender = false;
 	

@@ -41,17 +41,9 @@ class ProfilesController extends AppController {
 		}
 
 		if ($this->request->is(['patch', 'post', 'put'])) {
-			// TODO: validate password inputs
-				if ($this->validatePassword($this->request->data['Profile']['new password'], 
-					$this->request->data['Profile']['confirm password']) == false) {
-					$this->Session->setFlash('Password input not match');
-				}
 
 			// TODO: Get the currently authenticated user's ID
 				$userId = $this->Auth->user('id');
-				$newUserName = ($this->request->data['Profile']['name'] == null) ? $this->Auth->user('name') : $this->request->data['Profile']['name'];
-				$newUserEmail = ($this->request->data['Profile']['email'] == null) ? $this->Auth->user('email') : $this->request->data['Profile']['email'];
-				$newUserPassword = $this->request->data['Profile']['new password'];
 
 			// TODO: load user model and initiate save
 				$this->loadModel('Users');
@@ -80,21 +72,12 @@ class ProfilesController extends AppController {
 				// TODO: modify profile name
 				$this->request->data['Profile']['profile'] = $fileName;	
 				if ($this->Profile->save($this->request->data)) {
-					/**
-					 * TODO: Update users table
-					 */
-						$this->updateUsersTable([
-							$newUserEmail,
-							$newUserPassword,
-							$newUserName
-						]);
 					$this->Session->setFlash('Profile Updated!');
-					$this->redirect(array('action' => 'view', $id));
+					$this->redirect(array('action' => 'view', $userId));
 				} else {
 					$this->Session->error('Unable to update your profile. Please try again.');
 				}
 			} else {
-				debug($currentProfile);
 				$uploadFile = $this->uploadProfile(
 					$this->request->data['Profile']['profile'], 
 					$fileName,
@@ -109,16 +92,8 @@ class ProfilesController extends AppController {
 					$this->Profile->id = $profile['Profile']['id'];
 
                 if ($this->Profile->save($this->request->data)) {
-					/**
-					 * TODO: Update users table
-					 */
-						$this->updateUsersTable([
-							$newUserEmail,
-							$newUserPassword,
-							$newUserName
-						]);
 					$this->Session->setFlash('Profile Added!');
-					$this->redirect(array('action' => 'view', $id));	
+					$this->redirect(array('action' => 'view', $userId));	
                 } else {
                     // $this->Session->setFlash('Profile update failed.');
 					$this->Session->setFlash('Profile update failed!');
