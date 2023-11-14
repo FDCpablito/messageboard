@@ -10,6 +10,7 @@ class MessagesController extends AppController {
 			'conditions' => [
 				'receiver' => $this->Auth->user('id'),
 			],
+			'limit' => 3,
 			'order' => ['Message.id' => 'DESC']
 		]);
 		$this->set('messages', $messages);
@@ -90,7 +91,8 @@ class MessagesController extends AppController {
 	}
 
 	/**
-	 * TODO: fetch message based on number of given items
+	 * TODO: fetch sent box based on number of given items
+	 * ? this is accessed using ajax
 	 */
 		public function fetchSentBox($userId, $limit) {
 			$this->autoRender = false;
@@ -112,5 +114,30 @@ class MessagesController extends AppController {
 
 			echo json_encode($messages);
 		}
-	
+		
+	/**
+	 * TODO: fetch inbox based on nubmer given
+	 * ? this is accessed using ajax
+	 */
+
+		public function fetchInbox($userId, $limit) {
+			$this->autoRender = false;
+		
+			$limit = ($limit == null || $limit <= 0) ? 10 : $limit;
+		
+			$conditions = [];
+			if ($userId !== null) {
+				$conditions['receiver'] = $userId;
+			}
+		
+			$messages = $this->Message->find('all', [
+				'conditions' => $conditions,
+				'limit' => $limit,
+				'order' => [
+					'Message.id' => 'DESC'
+				]
+			]);
+
+			echo json_encode($messages);
+		}
 }
