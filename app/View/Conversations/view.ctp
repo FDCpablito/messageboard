@@ -43,25 +43,11 @@
 <script>
     $(document).ready(function() {
         var baseUrl = '<?php echo $this->Html->url('/'); ?>';
-        setTimeout(fetchMessages, 1000);
-        setInterval(function () {
-        // Perform an AJAX request to check for updates
-            $.ajax({
-                type: 'GET',
-                url: baseUrl + '/Conversations/checkUpdates',
-                dataType: 'json',
-                success: function (response) {
-                    console.log(response);
-                    if (response.hasUpdates) {
-                        // If there are updates, call fetchMessages
-                        fetchMessages();
-                    }
-                },
-                error: function (error) {
-                    console.error(error);
-                }
-            });
-        }, 1000); 
+        var intervalId;  // Variable to store the interval ID
+        // Set interval only if it's not already set
+        if (!intervalId) {
+            intervalId = setInterval(fetchMessages, 2000);
+        }
     });
 
     /**
@@ -100,7 +86,7 @@
                 type: 'GET',
                 url: baseUrl + 'messageboard/Conversations/fetch/' + messageId + '/' + numberConvo,
                 dataType: 'json',
-                success: function (response) {
+                success: function(response) {
                     const messageBox = $('#message-box');
                     messageBox.html('');
                     const userId = messageBox.data('user-id');
@@ -152,10 +138,11 @@
                         const showMoreButton = (messageText.length > 30) ? $('<button>', {
                             'text': 'Show More',
                             'class': 'btn btn-link',
-                            'click': function () {
+                            'click': function() {
                                 messagePreview.toggle();
                                 messageFull.toggle();
                                 showMoreButton.text(messagePreview.is(':visible') ? 'Show More' : 'Show Less');
+                                clearInterval(intervalId);  // Disable the interval when Show More is clicked
                             }
                         }) : null;
 
@@ -182,12 +169,11 @@
                         messageBox.append(newRow);
                     });
                 },
-                error: function (error) {
+                error: function(error) {
                     console.error(error);
                 }
             });
         }
-
 
     /**
      * TODO: fetch more message

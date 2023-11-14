@@ -84,6 +84,9 @@ class ConversationsController extends AppController {
 			// TODO: check for updates in the database
 			$hasUpdates = $this->Conversation->checkForUpdates();
 	
-			echo json_encode(['hasUpdates' => $hasUpdates]);
+			echo json_encode([
+				'hasUpdates' => $hasUpdates,
+				'time' => date('Y-m-d H:i:s', strtotime('-60 seconds'))
+			]);
 		}
 }
