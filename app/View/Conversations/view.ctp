@@ -42,7 +42,7 @@
 
 <script>
     $(document).ready(function() {
-        setInterval(fetchMessages, 2000);
+        setInterval(fetchMessages, 10000);
         $('#submit-btn').click(function() {
             fetchMessages();
             var formData = $('#conversation-form').serializeArray();
@@ -73,12 +73,10 @@
                 type: 'GET',
                 url: baseUrl + 'messageboard/Conversations/fetch/' + messageId + '/' + numberConvo,
                 dataType: 'json',
-                success: function(response) {
+                success: function (response) {
                     const messageBox = $('#message-box');
                     messageBox.html('');
                     const userId = messageBox.data('user-id');
-
-
 
                     // TODO: Display the conversation
                     response.forEach((element, index) => {
@@ -86,47 +84,56 @@
                             'class': 'row col-12 justify-content-center p-1 mb-2',
                         });
 
-                        /**
-                         * TODO: Relocate the message to left or right
-                         * ? right will hold the messages for current logged in user
-                         * ? left will hold the messages from the receiver user
-                         */
-                            const leftColumn = $('<div>');
-                            const rightColumn = $('<div>');
+                        const leftColumn = $('<div>');
+                        const rightColumn = $('<div>');
 
-                            if (userId == element.Conversation.sender_id) {
-                                leftColumn.addClass('col-2 p-1');
-                                rightColumn.addClass('col-10 p-1');
-                            } else {
-                                leftColumn.addClass('col-10 p-1');
-                                rightColumn.addClass('col-2 p-1');
-                            }
+                        if (userId == element.Conversation.sender_id) {
+                            leftColumn.addClass('col-2 p-1');
+                            rightColumn.addClass('col-10 p-1');
+                        } else {
+                            leftColumn.addClass('col-10 p-1');
+                            rightColumn.addClass('col-2 p-1');
+                        }
 
-                            newRow.append(leftColumn);
-                            newRow.append(rightColumn);
+                        newRow.append(leftColumn);
+                        newRow.append(rightColumn);
 
                         // Creating chat box
                         const chatBox = $('<div>', {
-                            'class': `${ (userId == element.Conversation.sender_id) ? 'bg-info' : 'bg-secondary' } shadow text-white p-2 rounded col-12`
+                            'class': `${(userId == element.Conversation.sender_id) ? 'bg-info' : 'bg-secondary'} shadow text-white p-2 rounded col-12`
                         });
                         const senderHolder = $('<div>', {
-                            'class': `form-group d-flex justify-content-${ (userId == element.Conversation.sender_id) ? 'end' : 'begin' } align-items-center`,
+                            'class': `form-group d-flex justify-content-${(userId == element.Conversation.sender_id) ? 'end' : 'begin'} align-items-center`,
                         });
 
                         const senderProfile = $('<img>', {
                             'src': baseUrl + `profile/${element.Profile.profile}`,
                             'class': 'rounded-circle',
                             'alt': 'Profile Image',
-                            'height': '25',
-                            'width': '25',
-                            'id' : 'visit-profile',
-                            'data-id' : `${ element.Sender.id }`
+                            'height': '30',
+                            'width': '30',
+                            'id': 'visit-profile',
+                            'data-id': `${element.Sender.id}`
                         });
 
                         senderHolder.append(senderProfile);
-                        const messageElement = $('<p>', {
-                            'text': element.Conversation.message
+
+                        // TODO: Creating the show more message feature
+                        const messageText = element.Conversation.message;
+                        const messagePreview = $('<span>').text(messageText.substring(0, 30));
+                        const showMoreButton = $('<button>', {
+                            'text': 'Show More',
+                            'class': 'btn btn-link',
+                            'click': function () {
+                                messagePreview.toggle();
+                                messageFull.toggle();
+                                showMoreButton.text(messagePreview.is(':visible') ? 'Show More' : 'Show Less');
+                            }
                         });
+
+                        const messageFull = $('<span>').text(messageText).hide();
+                        const messageElement = $('<p>').append(messagePreview).append(messageFull).append(showMoreButton);
+
                         const timeHolder = $('<p>', {
                             'text': element.Conversation.created,
                             'class': 'text-right mr-4'
@@ -142,16 +149,17 @@
                         } else {
                             leftColumn.append(chatBox)
                         }
-
-                        // end 
+                        //* end 
                         messageBox.append(newRow);
                     });
                 },
-                error: function(error) {
+                error: function (error) {
                     console.error(error);
                 }
             });
         }
+
+
 
         $('#more-conversation').click(function (e) {
             e.preventDefault();
