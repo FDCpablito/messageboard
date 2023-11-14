@@ -135,12 +135,17 @@ class Conversation extends AppModel {
     }
 
 	public function checkForUpdates() {
-        // Logic to check for updates, e.g., new messages
+		$oneMinuteAgo = date('Y-m-d H:i:s', strtotime('-1 minute'));
+	
+		// Logic to check for updates, e.g., new messages in the last minute
 		$newMessages = $this->Message->find('count', array(
 			'conditions' => array(
-				"DATE_FORMAT(Message.created, '%Y-%m-%d')" => date('Y-m-d')
+				'Message.created >' => $oneMinuteAgo
 			)
 		));
-        return ($newMessages > 0) ? true : false;
-    }
+	
+		return ($newMessages > 0) ? true : false;
+	}
+	
+	
 }
