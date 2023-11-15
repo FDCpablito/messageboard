@@ -41,9 +41,11 @@
 </div>
 
 <script>
+    var intervalId;
     $(document).ready(function() {
         var baseUrl = '<?php echo $this->Html->url('/'); ?>';
-        var intervalId;  // Variable to store the interval ID
+          // Variable to store the interval ID
+        alert(intervalId);
         // Set interval only if it's not already set
         if (!intervalId) {
             intervalId = setInterval(fetchMessages, 2000);

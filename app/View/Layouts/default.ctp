@@ -35,6 +35,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	<?php echo $this->Html->css('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css'); ?>
 
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+	<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
 	<!-- Bootstrap CSS -->
@@ -123,13 +124,9 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 
 					</ul>
 				</div>
-
-				
 			</nav>
 
-
 			<?php echo $this->Flash->render(); ?>
-
 			<?php echo $this->fetch('content'); ?>
 		</div>
 		<!-- <div id="footer">
