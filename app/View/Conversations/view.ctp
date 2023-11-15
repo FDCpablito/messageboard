@@ -44,8 +44,6 @@
     var intervalId;
     $(document).ready(function() {
         var baseUrl = '<?php echo $this->Html->url('/'); ?>';
-          // Variable to store the interval ID
-        alert(intervalId);
         // Set interval only if it's not already set
         if (!intervalId) {
             intervalId = setInterval(fetchMessages, 2000);
@@ -144,7 +142,12 @@
                                 messagePreview.toggle();
                                 messageFull.toggle();
                                 showMoreButton.text(messagePreview.is(':visible') ? 'Show More' : 'Show Less');
-                                clearInterval(intervalId);  // Disable the interval when Show More is clicked
+
+                                if (messagePreview.is(':visible')) {
+                                    intervalId = setInterval(fetchMessages, 2000);
+                                } else {
+                                    clearInterval(intervalId);
+                                }
                             }
                         }) : null;
 
