@@ -26,8 +26,8 @@
                                 <div class="row justify-content-center">
                                     <?php 
                                         echo $this->Html->link(
-                                            'Edit User',
-                                            ['controller' => 'Users', 'action' => 'edit'], // Replace $userId with the actual user ID
+                                            'Account Settings',
+                                            ['controller' => 'Users', 'action' => 'edit'],
                                             ['class' => 'btn btn-primary']
                                         );
                                     ?>
