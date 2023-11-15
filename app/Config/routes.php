@@ -55,6 +55,10 @@
 		// TODO: fetch inbox
 		Router::connect('/messageboard/Messages/fetchInbox/*', array('controller' => 'messages', 'action', 'fetchInbox'));
 
+		/**
+		 * 
+		 */
+
 /**
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.
