@@ -30,10 +30,7 @@
                 </div>
                 Loading ...
             </div>
-            <div class="row justify-content-center">
-                <a href="#" class="btn text-primary" id="more-conversation">
-                    Show More
-                </a>
+            <div class="row justify-content-center" id="more-convo-holder">
             </div>
         </div>        
     </div>
@@ -80,6 +77,7 @@
      */
         let numberConvo = 10; // * holds the limit or the number message to fetch
         function fetchMessages() {
+            var convoCounter = 0;
             var baseUrl = '<?php echo $this->Html->url('/'); ?>';
             var messageId = $('#message-box').data('message-id');
             $.ajax({
@@ -93,6 +91,8 @@
 
                     // TODO: Display the conversation
                     response.forEach((element, index) => {
+                        convoCounter = index;
+
                         const newRow = $('<div>', {
                             'class': 'row col-12 justify-content-center p-1 mb-2',
                         });
@@ -177,6 +177,21 @@
                         // TODO: end 
                         messageBox.append(newRow);
                     });
+
+                    /**
+                     * TODO: creatig the show more convo button
+                     */
+                        const moreConvoHolder = $('#more-convo-holder');
+                        moreConvoHolder.html(' ');
+                        const moreConvoButton = $('<a>', {
+                            'class' : 'btn btn-link text-primary',
+                            'id' : 'more-convo-btn',
+                            'text' : 'Show More'
+                        });
+                        if (convoCounter >= 5) {
+                            moreConvoHolder.append(moreConvoButton);
+                        }
+                    // TODO: end
                 },
                 error: function(error) {
                     console.error(error);
@@ -187,7 +202,7 @@
     /**
      * TODO: fetch more message
      */
-        $(document).on('click', '#more-conversation', function(e) {
+        $(document).on('click', '#more-convo-btn', function(e) {
             e.preventDefault();
             numberConvo += numberConvo;
             fetchMessages();
