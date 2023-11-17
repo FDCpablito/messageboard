@@ -96,81 +96,85 @@
                         const newRow = $('<div>', {
                             'class': 'row col-12 justify-content-center p-1 mb-2',
                         });
+                        /**
+                         * TODO: create the message holders
+                         */
+                            const leftColumn = $('<div>');
+                            const rightColumn = $('<div>');
 
-                        const leftColumn = $('<div>');
-                        const rightColumn = $('<div>');
-
-                        if (userId == element.Conversation.sender_id) {
-                            leftColumn.addClass('col-2 p-1');
-                            rightColumn.addClass('col-10 p-1');
-                        } else {
-                            leftColumn.addClass('col-10 p-1');
-                            rightColumn.addClass('col-2 p-1');
-                        }
-
-                        newRow.append(leftColumn);
-                        newRow.append(rightColumn);
-
-                        // Creating chat box
-                        const chatBox = $('<div>', {
-                            'class': `${(userId == element.Conversation.sender_id) ? 'bg-info' : 'bg-secondary'} shadow text-white p-2 rounded col-12`
-                        });
-                        const senderHolder = $('<div>', {
-                            'class': `form-group d-flex justify-content-${(userId == element.Conversation.sender_id) ? 'end' : 'begin'} align-items-center`,
-                        });
-
-                        const senderProfile = $('<img>', {
-                            'src': baseUrl + `profile/${element.Profile.profile}`,
-                            'class': 'rounded-circle',
-                            'alt': 'Profile Image',
-                            'height': '30',
-                            'width': '30',
-                            'id': 'visit-profile',
-                            'data-id': `${element.Sender.id}`
-                        });
-
-                        senderHolder.append(senderProfile);
-
-                        // TODO: Creating the show more message feature
-                        const messageText = element.Conversation.message;
-
-                        // Only show "Show More" button if the message exceeds 30 characters
-                        const showMoreButton = (messageText.length > 30) ? $('<button>', {
-                            'text': 'Show More',
-                            'class': 'btn btn-link',
-                            'click': function() {
-                                messagePreview.toggle();
-                                messageFull.toggle();
-                                showMoreButton.text(messagePreview.is(':visible') ? 'Show More' : 'Show Less');
-
-                                if (messagePreview.is(':visible')) {
-                                    intervalId = setInterval(fetchMessages, 2000);
-                                } else {
-                                    clearInterval(intervalId);
-                                }
+                            if (userId == element.Conversation.sender_id) {
+                                leftColumn.addClass('col-2 p-1');
+                                rightColumn.addClass('col-10 p-1');
+                            } else {
+                                leftColumn.addClass('col-10 p-1');
+                                rightColumn.addClass('col-2 p-1');
                             }
-                        }) : null;
 
-                        const messagePreview = $('<span>').text(messageText.substring(0, 30));
-                        const messageFull = $('<span>').text(messageText).hide();
-                        const messageElement = $('<p>').append(messagePreview).append(messageFull).append(showMoreButton);
+                            newRow.append(leftColumn);
+                            newRow.append(rightColumn);
+                        // TODO: end
+                        /**
+                         * TODO: Creating chat box
+                         */
+                            const chatBox = $('<div>', {
+                                'class': `${(userId == element.Conversation.sender_id) ? 'bg-info' : 'bg-secondary'} shadow text-white p-2 rounded col-12`
+                            });
+                            const senderHolder = $('<div>', {
+                                'class': `form-group d-flex justify-content-${(userId == element.Conversation.sender_id) ? 'end' : 'begin'} align-items-center`,
+                            });
 
-                        const timeHolder = $('<p>', {
-                            'text': element.Conversation.created,
-                            'class': 'text-right mr-4'
-                        });
+                            const senderProfile = $('<img>', {
+                                'src': baseUrl + `profile/${element.Profile.profile}`,
+                                'class': 'rounded-circle',
+                                'alt': 'Profile Image',
+                                'height': '30',
+                                'width': '30',
+                                'id': 'visit-profile',
+                                'data-id': `${element.Sender.id}`
+                            });
 
-                        chatBox.append(senderHolder);
-                        chatBox.append(messageElement);
-                        chatBox.append(timeHolder);
+                            senderHolder.append(senderProfile);
 
-                        // * conversation placement
-                        if (userId == element.Conversation.sender_id) {
-                            rightColumn.append(chatBox)
-                        } else {
-                            leftColumn.append(chatBox)
-                        }
-                        //* end 
+                            // TODO: Creating the show more message feature
+                            const messageText = element.Conversation.message;
+
+                            // Only show "Show More" button if the message exceeds 30 characters
+                            const showMoreButton = (messageText.length > 30) ? $('<button>', {
+                                'text': 'Show More',
+                                'class': 'btn btn-link',
+                                'click': function() {
+                                    messagePreview.toggle();
+                                    messageFull.toggle();
+                                    showMoreButton.text(messagePreview.is(':visible') ? 'Show More' : 'Show Less');
+
+                                    if (messagePreview.is(':visible')) {
+                                        intervalId = setInterval(fetchMessages, 2000);
+                                    } else {
+                                        clearInterval(intervalId);
+                                    }
+                                }
+                            }) : null;
+
+                            const messagePreview = $('<span>').text(messageText.substring(0, 30));
+                            const messageFull = $('<span>').text(messageText).hide();
+                            const messageElement = $('<p>').append(messagePreview).append(messageFull).append(showMoreButton);
+
+                            const timeHolder = $('<p>', {
+                                'text': element.Conversation.created,
+                                'class': 'text-right mr-4'
+                            });
+
+                            chatBox.append(senderHolder);
+                            chatBox.append(messageElement);
+                            chatBox.append(timeHolder);
+                        // TODO: end
+                        // TODO: conversation placement
+                            if (userId == element.Conversation.sender_id) {
+                                rightColumn.append(chatBox)
+                            } else {
+                                leftColumn.append(chatBox)
+                            }
+                        // TODO: end 
                         messageBox.append(newRow);
                     });
                 },
