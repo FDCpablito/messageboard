@@ -49,7 +49,7 @@
     var intervalId;
     $(document).ready(function() {
         var baseUrl = '<?php echo $this->Html->url('/'); ?>';
-        setInterval(fetchMessages, 2000)
+        setInterval(fetchMessages, 1000)
     });
 
     /**
@@ -150,7 +150,7 @@
                                 // TODO: Only show "Show More" button if the message exceeds 30 characters
                                 const showMoreButton = (messageText.length > 30) ? $('<button>', {
                                     'text': (isMessageShown ? 'Show Less' : 'Show More'),
-                                    'class': 'btn btn-link',
+                                    'class': 'btn btn-link text-warning',
                                     'data-id' : element.Conversation.id,
                                     'click': function() {
                                         messagePreview.toggle();
@@ -165,6 +165,7 @@
                                                 'is_shown' : (isMessageShown) ? 0 : 1
                                             },
                                             success: function(response) {
+                                                console.log(response);
                                                 // TODO: This will fetch the response
                                                 fetchMessages();
                                             },
