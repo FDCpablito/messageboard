@@ -3,33 +3,37 @@
 ?>
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-8 p-4">
-            <?php if (!empty($messages)) : ?>
-                <div class="justify-content-center p-2" id="sent-box">
-                    <?php foreach ($messages as $key => $value) :?>
-                        <!-- <?php $counter = $key; ?> -->
-                        <div class="card shadow mb-1" id="messageBox-<?php echo $value['Message']['id']; ?>">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <strong><?php echo $this->Html->link($value['User']['name'], ['controller' => 'Conversations', 'action' => 'view', $value['Message']['id']]) ?></strong>
-                                    <div>
-                                        <i class="text-right"><?php echo $value['User']['created'] ?></i>
-                                        <a class="ml-2 btn" data-id="<?php echo $value['Message']['id']; ?>" id="delete-conversation">
-                                            <i class="fas fa-trash text-danger" ></i>
-                                        </a>
+        <?php if($ifHasProfile) :?>
+            <div class="col-8 p-4">
+                <?php if (!empty($messages)) : ?>
+                    <div class="justify-content-center p-2" id="sent-box">
+                        <?php foreach ($messages as $key => $value) :?>
+                            <!-- <?php $counter = $key; ?> -->
+                            <div class="card shadow mb-1" id="messageBox-<?php echo $value['Message']['id']; ?>">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <strong><?php echo $this->Html->link($value['User']['name'], ['controller' => 'Conversations', 'action' => 'view', $value['Message']['id']]) ?></strong>
+                                        <div>
+                                            <i class="text-right"><?php echo $value['User']['created'] ?></i>
+                                            <a class="ml-2 btn" data-id="<?php echo $value['Message']['id']; ?>" id="delete-conversation">
+                                                <i class="fas fa-trash text-danger" ></i>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    <?php endforeach; ?>
-                    <?php if($counter >= 2) :?>
-                        <a href="#" id="show-more" class="btn text-center text-primary col-12">Show More</a>
-                    <?php endif; ?>
-                </div>
-            <?php else :?>
-                <h5 class="text-center">You don't have any sent box.</h5>
-            <?php endif ?>
-        </div>
+                        <?php endforeach; ?>
+                        <?php if($counter >= 2) :?>
+                            <a href="#" id="show-more" class="btn text-center text-primary col-12">Show More</a>
+                        <?php endif; ?>
+                    </div>
+                <?php else :?>
+                    <h5 class="text-center">You don't have any inbox.</h5>
+                <?php endif ?>
+            </div>
+        <?php else: ?>
+            <h5 class="text-center">Please set up your <?php echo $this->Html->link('Profile', array('controller' => 'profiles', 'action' => 'edit')); ?> before viewing your inbox.</h5>
+        <?php endif; ?> 
     </div>
 </div>
 

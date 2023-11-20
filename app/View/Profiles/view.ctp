@@ -42,5 +42,5 @@
         </div>
     <?php endforeach; ?>
 <?php else: ?>
-    <p class="text-center">No profile data found for the current user.</p>
+    <p class="text-center"><strong>No profile data found for the current user.</strong></p>
 <?php endif; ?>

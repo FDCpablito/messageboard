@@ -14,11 +14,13 @@ class MessagesController extends AppController {
 			'order' => ['Message.id' => 'DESC']
 		]);
 		$this->set('messages', $messages);
+
+		// TODO: pass if has profile result
+		$this->set('ifHasProfile', $this->ifHasProfile());
 	} 
 
 	public function sent() {
 		$this->loadModel('User');
-
 		$messages = $this->Message->find('all', [
 			'conditions' => [
 				'user_id' => $this->Auth->user('id'),
@@ -27,6 +29,9 @@ class MessagesController extends AppController {
 			'order' => ['Message.id' => 'DESC']
 		]);
 		$this->set('messages', $messages);
+		
+		// TODO: pass if has profile result
+		$this->set('ifHasProfile', $this->ifHasProfile());
 	}
 
 	public function add() {
@@ -142,4 +147,18 @@ class MessagesController extends AppController {
 		}
 
 		
+	/**
+	 * TODO: this will determine if user has profile
+	 * ? If not the user will be redirected to add / update profiles page
+	 * ? IF Yes, proceed accordingly
+	 */
+		private function ifHasProfile() {
+			$userId = $this->Auth->user('id');
+
+			$this->loadModel('Profile');
+
+			$profile = $this->Profile->findById($userId);
+
+			return ($profile) ? true : false;
+		}
 }

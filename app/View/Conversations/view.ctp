@@ -61,12 +61,11 @@
                 success: function(response) {
                     $('#message-input').val(' ');
                     console.log(response);
-
-                    // This will fetch the response
+                    // TODO: This will fetch the response
                     fetchMessages();
                 },
                 error: function(error) {
-                    // Handle the error response
+                    // TODO: Handle the error response
                     console.error(error);
                 }
             });
