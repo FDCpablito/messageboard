@@ -26,7 +26,7 @@
  * to use (in this case, /app/View/Pages/home.ctp)...
  */
 	// Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
-	Router::connect('/', array('controller' => 'messages', 'action' => 'display', 'sent'));
+	Router::connect('/', array('controller' => 'messages', 'action' => 'sent'));
 /**
  * ...and connect the rest of 'Pages' controller's URLs.
  */
@@ -43,7 +43,6 @@
 		Router::connect('/messageboard/Conversation/checkForUpdates', array(
 			'controller' => 'conversations', 'actions' => 'checkUpdates'
 		));
-
 	/**
 	 * * These routers are for the messages controller
 	 * ? they're accessed using ajax
