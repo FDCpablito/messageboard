@@ -54,6 +54,12 @@ class Profile extends AppModel {
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
+		),
+		'hubby' => array(
+			'notBlank' => array(
+				'rule' => array('notBlank'),
+				'message' => 'Hubby is required'
+			),
 		)
 	);
 
