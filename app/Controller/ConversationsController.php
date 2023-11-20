@@ -99,8 +99,23 @@ class ConversationsController extends AppController {
 	/**
 	 * TODO: search Conversations
 	 */
-		public function searchConversations($message) {
+		public function updateIsShown($id) {
 			$this->autoRender = false;
+		
+			$this->Conversation->id = $id; // Set the ID of the specific Conversation record
+		
+			if ($this->request->is(['put', 'post'])) {
 
+				if($this->Conversation->saveField('is_shown', $this->request->data['is_shown'])) {
+					echo json_encode([
+						'message' => 'Success'
+					]);
+				} else {
+					echo json_encode([
+						'message' => 'Failed'
+					]);
+				}
+			}
 		}
+	
 }

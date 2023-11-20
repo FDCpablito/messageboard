@@ -43,6 +43,10 @@
 		Router::connect('/messageboard/Conversation/checkForUpdates', array(
 			'controller' => 'conversations', 'actions' => 'checkUpdates'
 		));
+		// TODO: this allow update of message is shown column
+		Router::connect('/messageboard/Conversation/updateIsShown/*', array('controller' => 'conversations',
+			'action' => 'updateIsShown'
+		));
 	/**
 	 * * These routers are for the messages controller
 	 * ? they're accessed using ajax
