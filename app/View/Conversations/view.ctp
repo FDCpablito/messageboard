@@ -1,6 +1,14 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-8 mb-2">
+            <div class="form-group p-1">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search Conversation" aria-label="Search" aria-describedby="basic-addon2" id="message">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-primary" type="button" id="search-btn">Search</button>
+                    </div>
+                </div>
+            </div>
             <?php
                 echo $this->Form->create('Conversation', [
                     'id' => 'conversation-form',
@@ -75,107 +83,116 @@
      * TODO: this will fetch the conversation
      */
         let numberConvo = 10; // * holds the limit or the number message to fetch
+        var message = 'no search';
         function fetchMessages() {
             var convoCounter = 0;
             var baseUrl = '<?php echo $this->Html->url('/'); ?>';
             var messageId = $('#message-box').data('message-id');
             $.ajax({
                 type: 'GET',
-                url: baseUrl + 'messageboard/Conversations/fetch/' + messageId + '/' + numberConvo,
+                url: baseUrl + 'messageboard/Conversations/fetch/' + messageId + '/' + numberConvo + '/' + message,
                 dataType: 'json',
                 success: function(response) {
                     const messageBox = $('#message-box');
                     messageBox.html('');
                     const userId = messageBox.data('user-id');
 
-                    // TODO: Display the conversation
-                    response.forEach((element, index) => {
-                        convoCounter = index;
+                    if (response.length > 0) {
+                        // TODO: Display the conversation
+                        response.forEach((element, index) => {
+                            convoCounter = index;
 
-                        const newRow = $('<div>', {
-                            'class': 'row col-12 justify-content-center p-1 mb-2',
-                        });
-                        /**
-                         * TODO: create the message holders
-                         */
-                            const leftColumn = $('<div>');
-                            const rightColumn = $('<div>');
-
-                            if (userId == element.Conversation.sender_id) {
-                                leftColumn.addClass('col-2 p-1');
-                                rightColumn.addClass('col-10 p-1');
-                            } else {
-                                leftColumn.addClass('col-10 p-1');
-                                rightColumn.addClass('col-2 p-1');
-                            }
-
-                            newRow.append(leftColumn);
-                            newRow.append(rightColumn);
-                        // TODO: end
-                        /**
-                         * TODO: Creating chat box
-                         */
-                            const chatBox = $('<div>', {
-                                'class': `${(userId == element.Conversation.sender_id) ? 'bg-info' : 'bg-secondary'} shadow text-white p-2 rounded col-12`
+                            const newRow = $('<div>', {
+                                'class': 'row col-12 justify-content-center p-1 mb-2',
                             });
-                            const senderHolder = $('<div>', {
-                                'class': `form-group d-flex justify-content-${(userId == element.Conversation.sender_id) ? 'end' : 'begin'} align-items-center`,
-                            });
+                            /**
+                             * TODO: create the message holders
+                             */
+                                const leftColumn = $('<div>');
+                                const rightColumn = $('<div>');
 
-                            const senderProfile = $('<img>', {
-                                'src': baseUrl + `profile/${element.Profile.profile}`,
-                                'class': 'rounded-circle',
-                                'alt': 'Profile Image',
-                                'height': '30',
-                                'width': '30',
-                                'id': 'visit-profile',
-                                'data-id': `${element.Sender.id}`
-                            });
-
-                            senderHolder.append(senderProfile);
-
-                            // TODO: Creating the show more message feature
-                            const messageText = element.Conversation.message;
-
-                            // Only show "Show More" button if the message exceeds 30 characters
-                            const showMoreButton = (messageText.length > 30) ? $('<button>', {
-                                'text': 'Show More',
-                                'class': 'btn btn-link',
-                                'click': function() {
-                                    messagePreview.toggle();
-                                    messageFull.toggle();
-                                    showMoreButton.text(messagePreview.is(':visible') ? 'Show More' : 'Show Less');
-
-                                    if (messagePreview.is(':visible')) {
-                                        intervalId = setInterval(fetchMessages, 2000);
-                                    } else {
-                                        clearInterval(intervalId);
-                                    }
+                                if (userId == element.Conversation.sender_id) {
+                                    leftColumn.addClass('col-2 p-1');
+                                    rightColumn.addClass('col-10 p-1');
+                                } else {
+                                    leftColumn.addClass('col-10 p-1');
+                                    rightColumn.addClass('col-2 p-1');
                                 }
-                            }) : null;
 
-                            const messagePreview = $('<span>').text(messageText.substring(0, 30));
-                            const messageFull = $('<span>').text(messageText).hide();
-                            const messageElement = $('<p>').append(messagePreview).append(messageFull).append(showMoreButton);
+                                newRow.append(leftColumn);
+                                newRow.append(rightColumn);
+                            // TODO: end
+                            /**
+                             * TODO: Creating chat box
+                             */
+                                const chatBox = $('<div>', {
+                                    'class': `${(userId == element.Conversation.sender_id) ? 'bg-info' : 'bg-secondary'} shadow text-white p-2 rounded col-12`
+                                });
+                                const senderHolder = $('<div>', {
+                                    'class': `form-group d-flex justify-content-${(userId == element.Conversation.sender_id) ? 'end' : 'begin'} align-items-center`,
+                                });
 
-                            const timeHolder = $('<p>', {
-                                'text': element.Conversation.created,
-                                'class': 'text-right mr-4'
-                            });
+                                const senderProfile = $('<img>', {
+                                    'src': baseUrl + `profile/${element.Profile.profile}`,
+                                    'class': 'rounded-circle',
+                                    'alt': 'Profile Image',
+                                    'height': '30',
+                                    'width': '30',
+                                    'id': 'visit-profile',
+                                    'data-id': `${element.Sender.id}`
+                                });
 
-                            chatBox.append(senderHolder);
-                            chatBox.append(messageElement);
-                            chatBox.append(timeHolder);
-                        // TODO: end
-                        // TODO: conversation placement
-                            if (userId == element.Conversation.sender_id) {
-                                rightColumn.append(chatBox)
-                            } else {
-                                leftColumn.append(chatBox)
-                            }
-                        // TODO: end 
-                        messageBox.append(newRow);
-                    });
+                                senderHolder.append(senderProfile);
+
+                                // TODO: Creating the show more message feature
+                                const messageText = element.Conversation.message;
+
+                                // Only show "Show More" button if the message exceeds 30 characters
+                                const showMoreButton = (messageText.length > 30) ? $('<button>', {
+                                    'text': 'Show More',
+                                    'class': 'btn btn-link',
+                                    'click': function() {
+                                        messagePreview.toggle();
+                                        messageFull.toggle();
+                                        showMoreButton.text(messagePreview.is(':visible') ? 'Show More' : 'Show Less');
+
+                                        if (messagePreview.is(':visible')) {
+                                            intervalId = setInterval(fetchMessages, 2000);
+                                        } else {
+                                            clearInterval(intervalId);
+                                        }
+                                    }
+                                }) : null;
+
+                                const messagePreview = $('<span>').text(messageText.substring(0, 30));
+                                const messageFull = $('<span>').text(messageText).hide();
+                                const messageElement = $('<p>').append(messagePreview).append(messageFull).append(showMoreButton);
+
+                                const timeHolder = $('<p>', {
+                                    'text': element.Conversation.created,
+                                    'class': 'text-right mr-4'
+                                });
+
+                                chatBox.append(senderHolder);
+                                chatBox.append(messageElement);
+                                chatBox.append(timeHolder);
+                            // TODO: end
+                            // TODO: conversation placement
+                                if (userId == element.Conversation.sender_id) {
+                                    rightColumn.append(chatBox)
+                                } else {
+                                    leftColumn.append(chatBox)
+                                }
+                            // TODO: end 
+                            messageBox.append(newRow);
+                        });
+                    } else {
+                        const prompt = $('<h1>', {
+                            'class' : 'text-center font-weight-bold',
+                            'text' : 'No word(s) or phras(s) found.'
+                        });
+                        messageBox.append(prompt);
+                    }
 
                     /**
                      * TODO: creatig the show more convo button
@@ -214,5 +231,26 @@
             e.preventDefault();
             var baseUrl = '<?php echo $this->Html->url('/'); ?>';
             window.location.href = baseUrl + 'Profiles/userProfile/'+ $(this).data('id') ;
+        });
+
+    /**
+     * TODO: search conversation
+     */
+        $(document).on('click', '#search-btn', function(e) {
+            message = ($('#message').val() == '') ? 'no search' : $('#message').val();
+            fetchMessages();
+        });
+
+    /**
+     * TODO: check if search conversation input element is empty
+     * ? if empty reset the fetchMessage() function
+     * ? if not, keep as is
+     */
+        $(document).on('input', '#message', function() {
+            var currentValue = $(this).val();
+            if (currentValue === '') {
+                // Value is now empty
+                $('#search-btn').click();
+            }
         });
 </script>

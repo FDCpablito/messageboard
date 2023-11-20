@@ -56,16 +56,22 @@ class ConversationsController extends AppController {
 		}
 	}
 
-	public function fetch($messageId = null, $numberConvo) {
+	public function fetch($messageId = null, $numberConvo, $message) {
+		$this->autoRender = false;
+		
 		$numberConvo = ($numberConvo == null) ? 10: $numberConvo;
 
-		$this->autoRender = false;
-	
 		$conditions = [];
-		if ($messageId !== null) {
-			$conditions['message_id'] = $messageId;
-		}
-	
+		// TODO: fetch conversations with the same message ID
+			if ($messageId !== null) {
+				$conditions['message_id'] = $messageId;
+			}
+		// TODO: fetch the conversations which messages are like the $message
+			 if ($message !== 'no search') {
+				$conditions['OR'] = [
+					'Conversation.message LIKE' => '%' . $message . '%' // Include conversations with messages like the specified message
+				];
+			}
 		$conversations = $this->Conversation->find('all', [
 			'conditions' => $conditions,
 			'limit' => $numberConvo,
@@ -88,5 +94,13 @@ class ConversationsController extends AppController {
 				'hasUpdates' => $hasUpdates,
 				'time' => date('Y-m-d H:i:s', strtotime('-60 seconds'))
 			]);
+		}
+
+	/**
+	 * TODO: search Conversations
+	 */
+		public function searchConversations($message) {
+			$this->autoRender = false;
+
 		}
 }
