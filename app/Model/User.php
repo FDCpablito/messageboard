@@ -67,4 +67,11 @@ class User extends AppModel {
         }
         return true;
     }
+
+	public $hasOne = array(
+        'Profile' => array(
+            'className' => 'Profile',
+            'foreignKey' => 'user_id'
+        )
+    );
 }

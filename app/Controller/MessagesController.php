@@ -38,12 +38,10 @@ class MessagesController extends AppController {
 		$this->loadModel('User');
 
 		$options = $this->User->find('list', [
-			'fields' => ['id', 'name'],
+			'fields' => ['User.id', 'User.name'],
 			'conditions' => ['User.id !=' => $this->Auth->user('id')],
 		]);
-
 		$this->set('options', $options);
-
 
 		if ($this->request->is('post')) {
 			$this->request->data['Message']['user_id'] = $this->Auth->user('id');

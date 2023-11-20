@@ -15,7 +15,7 @@
                                 <?php echo $this->Html->image('/profile//' . $profile['Profile']['profile'], 
                                     [
                                         'alt' => 'Profile Image',
-                                        'class' => 'border m-0',
+                                        'class' => 'rounded-circle border shadow',
                                         'height' => '200',
                                         'width' => '200',
                                     ]
