@@ -62,34 +62,34 @@ class UsersController extends AppController {
 
 	public function edit() {
 		// TODO: Find the user data for the logged-in user
-		$userId = $this->Auth->user('id');
-		$user = $this->User->findById($userId);
-		if (!$user) {
-			throw new NotFoundException(__('Invalid user'));
-		}
+			$userId = $this->Auth->user('id');
+			$user = $this->User->findById($userId);
+			if (!$user) {
+				throw new NotFoundException(__('Invalid user'));
+			}
 	
 		// TODO: Process form submission
-		if ($this->request->is('post') || $this->request->is('put')) {
-			$this->User->id = $userId;
-	
-			// TODO: Validate the form data
-			$this->User->set($this->request->data);
-	
-			if ($this->User->validates()) {
-				// TODO: Save the updated user data
-				if ($this->User->save($this->request->data)) {
-					$this->Session->setFlash('User information updated successfully.', 'default', array('class' => 'success'));
-
+			if ($this->request->is('post') || $this->request->is('put')) {
+				$this->User->id = $userId;
+		
+				// TODO: Validate the form data
+				$this->User->set($this->request->data);
+		
+				if ($this->User->validates()) {
+					// TODO: Save the updated user data
+					if ($this->User->save($this->request->data)) {
+						$this->Session->setFlash('User information updated successfully.', 'default', array('class' => 'success'));
+						$this->redirect(array('controller' => 'profiles', 'action' => 'view'));
+					} else {
+						$this->Session->setFlash('Unable to update user information.');
+					}
 				} else {
-					$this->Session->setFlash('Unable to update user information.');
+						$this->Session->setFlash('Validation errors occurred. Please fix the errors and try again.');
 				}
-			} else {
-					$this->Session->setFlash('Validation errors occurred. Please fix the errors and try again.');
 			}
-		}
-	
+		
 		// TODO: Set the user data for the view
-		$this->set('user', $user);
+			$this->set('user', $user);
 	}
 	
 }
