@@ -19,7 +19,7 @@
                                             'height' => '200',
                                             'width' => '200',
                                             'id'=> 'imagePreview',
-                                            'class' => 'border'
+                                            'class' => 'rounded-circle shadow'
                                         ]);
                                     ?>
                                </div>
@@ -81,7 +81,7 @@
                                             'height' => '200',
                                             'width' => '200',
                                             'id'=> 'imagePreview',
-                                            'class' => 'border'
+                                            'class' => 'rounded-circle shadow'
                                         ]);
                                     ?>
                                 </div>
