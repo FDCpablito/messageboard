@@ -160,7 +160,6 @@
                                         // TODO update the is shown status of message
                                         $.ajax({
                                             type: 'POST',
-                                            // url : baseUrl + 'Conversations/updateIsSenderShown/' + $(this).data('id'),
                                             url : `${baseUrl}Conversations/${(userId == element.Conversation.sender_id) ? `updateIsSenderShown` : `updateIsReceiverShown`}/${$(this).data('id')}`,
                                             data: {
                                                 'is_shown' : (isMessageShown) ? 0 : 1
@@ -180,10 +179,14 @@
                                 const messagePreview = $('<span>').text(messageText.substring(0, 30));
                                 const messageFull = $('<span>').text(messageText).hide();
 
-                                if (isMessageShown) {
-                                    messagePreview.hide();
-                                    messageFull.show();
-                                }
+                                /**
+                                 * TODO: this wil determine if message is expanded or not
+                                 * ? isMessageShown returns true or false
+                                 */
+                                    if (isMessageShown) {
+                                        messagePreview.hide();
+                                        messageFull.show();
+                                    }
 
                                 const messageElement = $('<p>').append(messagePreview).append(messageFull).append(showMoreButton);
 
