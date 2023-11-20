@@ -97,25 +97,46 @@ class ConversationsController extends AppController {
 		}
 
 	/**
-	 * TODO: search Conversations
+	 * TODO: update is sender show column
 	 */
-		public function updateIsShown($id) {
+		public function updateIsSenderShown($id) {
 			$this->autoRender = false;
 		
 			$this->Conversation->id = $id; // Set the ID of the specific Conversation record
 		
 			if ($this->request->is(['put', 'post'])) {
 
-				if($this->Conversation->saveField('is_shown', $this->request->data['is_shown'])) {
+				if($this->Conversation->saveField('is_sender_shown', $this->request->data['is_shown'])) {
 					echo json_encode([
-						'message' => 'Success'
+						'message' => 'updateIsSenderShown: Success'
 					]);
 				} else {
 					echo json_encode([
-						'message' => 'Failed'
+						'message' => 'updateIsSenderShown: Failed'
 					]);
 				}
 			}
 		}
-	
+
+	/**
+	 * TODO: update is receiver shown column
+	 */
+		public function updateIsReceiverShown($id) {
+			$this->autoRender = false;
+		
+			$this->Conversation->id = $id; // Set the ID of the specific Conversation record
+		
+			if ($this->request->is(['put', 'post'])) {
+
+				if($this->Conversation->saveField('is_receiver_shown', $this->request->data['is_shown'])) {
+					echo json_encode([
+						'message' => 'updateIsReceiverShown: Success'
+					]);
+				} else {
+					echo json_encode([
+						'message' => 'updateIsReceiverShown: Failed'
+					]);
+				}
+			}
+		}
 }

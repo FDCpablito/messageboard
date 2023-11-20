@@ -143,7 +143,10 @@
 
                                 // TODO: Creating the show more message feature
                                 const messageText = element.Conversation.message;
-                                const isMessageShown = element.Conversation.is_shown;
+                                const isSenderShown = element.Conversation.is_sender_shown;
+                                const isReceiverShown = element.Conversation.is_receiver_shown;
+                                const isMessageShown =  (userId == element.Conversation.sender_id) ? isSenderShown : isReceiverShown;
+
                                 // TODO: Only show "Show More" button if the message exceeds 30 characters
                                 const showMoreButton = (messageText.length > 30) ? $('<button>', {
                                     'text': (isMessageShown ? 'Show Less' : 'Show More'),
@@ -157,13 +160,12 @@
                                         // TODO update the is shown status of message
                                         $.ajax({
                                             type: 'POST',
-                                            url : baseUrl + 'Conversations/updateIsShown/' + $(this).data('id'),
+                                            // url : baseUrl + 'Conversations/updateIsSenderShown/' + $(this).data('id'),
+                                            url : `${baseUrl}Conversations/${(userId == element.Conversation.sender_id) ? `updateIsSenderShown` : `updateIsReceiverShown`}/${$(this).data('id')}`,
                                             data: {
                                                 'is_shown' : (isMessageShown) ? 0 : 1
                                             },
                                             success: function(response) {
-                                                $('#message-input').val(' ');
-                                                console.log(response);
                                                 // TODO: This will fetch the response
                                                 fetchMessages();
                                             },
