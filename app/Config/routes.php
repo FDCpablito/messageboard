@@ -43,6 +43,11 @@
 		Router::connect('/messageboard/Conversation/checkForUpdates', array(
 			'controller' => 'conversations', 'actions' => 'checkUpdates'
 		));
+		// TODO: this allow update of conversation "is_sender_shown" column
+		Router::connect('/messageboard/Conversation/updateIsSenderShown/*', array('controller' => 'conversations',
+			'action' => 'updateIsSenderShown'
+		));
+		
 	/**
 	 * * These routers are for the messages controller
 	 * ? they're accessed using ajax

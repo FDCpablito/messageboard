@@ -49,10 +49,7 @@
     var intervalId;
     $(document).ready(function() {
         var baseUrl = '<?php echo $this->Html->url('/'); ?>';
-        // Set interval only if it's not already set
-        if (!intervalId) {
-            intervalId = setInterval(fetchMessages, 2000);
-        }
+        setInterval(fetchMessages, 2000)
     });
 
     /**
@@ -146,26 +143,48 @@
 
                                 // TODO: Creating the show more message feature
                                 const messageText = element.Conversation.message;
+                                const isSenderShown = element.Conversation.is_sender_shown;
+                                const isReceiverShown = element.Conversation.is_receiver_shown;
+                                const isMessageShown =  (userId == element.Conversation.sender_id) ? isSenderShown : isReceiverShown;
 
-                                // Only show "Show More" button if the message exceeds 30 characters
+                                // TODO: Only show "Show More" button if the message exceeds 30 characters
                                 const showMoreButton = (messageText.length > 30) ? $('<button>', {
-                                    'text': 'Show More',
+                                    'text': (isMessageShown ? 'Show Less' : 'Show More'),
                                     'class': 'btn btn-link',
+                                    'data-id' : element.Conversation.id,
                                     'click': function() {
                                         messagePreview.toggle();
                                         messageFull.toggle();
                                         showMoreButton.text(messagePreview.is(':visible') ? 'Show More' : 'Show Less');
 
-                                        if (messagePreview.is(':visible')) {
-                                            intervalId = setInterval(fetchMessages, 2000);
-                                        } else {
-                                            clearInterval(intervalId);
-                                        }
+                                        // TODO update the is shown status of message
+                                        $.ajax({
+                                            type: 'POST',
+                                            // url : baseUrl + 'Conversations/updateIsSenderShown/' + $(this).data('id'),
+                                            url : `${baseUrl}Conversations/${(userId == element.Conversation.sender_id) ? `updateIsSenderShown` : `updateIsReceiverShown`}/${$(this).data('id')}`,
+                                            data: {
+                                                'is_shown' : (isMessageShown) ? 0 : 1
+                                            },
+                                            success: function(response) {
+                                                // TODO: This will fetch the response
+                                                fetchMessages();
+                                            },
+                                            error: function(error) {
+                                                // TODO: Handle the error response
+                                                console.error(error);
+                                            }
+                                        });
                                     }
                                 }) : null;
 
                                 const messagePreview = $('<span>').text(messageText.substring(0, 30));
                                 const messageFull = $('<span>').text(messageText).hide();
+
+                                if (isMessageShown) {
+                                    messagePreview.hide();
+                                    messageFull.show();
+                                }
+
                                 const messageElement = $('<p>').append(messagePreview).append(messageFull).append(showMoreButton);
 
                                 const timeHolder = $('<p>', {
