@@ -67,7 +67,6 @@ class MessagesController extends AppController {
 					]);
 				}
 				$this->set('options', json_encode($options));
-				
 			# end
 			
 			/**
