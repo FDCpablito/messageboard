@@ -32,7 +32,11 @@
                 <?php endif ?>
             </div>
         <?php else: ?>
-            <h5 class="text-center">Please set up your <?php echo $this->Html->link('Profile', array('controller' => 'profiles', 'action' => 'edit')); ?> before viewing your inbox.</h5>
+            <div class="alert alert-info shadow col-8" role="alert">
+                Ensuring a seamless experience for you is our top priority! 
+                To facilitate effective communication, kindly take a moment to set up your <?php echo $this->Html->link('Profile', array('controller' => 'profiles', 'action' => 'edit')); ?> . 
+                This will enable you to receive messages and fully engage with our platform. We appreciate your cooperation and look forward to enhancing your experience! 🌟
+            </div>
         <?php endif; ?> 
     </div>
 </div>
