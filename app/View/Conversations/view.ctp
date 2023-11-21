@@ -65,13 +65,11 @@
                 data: formData,
                 success: function(response) {
                     $('#message-input').val(' ');
-                    console.log(response);
                     // TODO: This will fetch the response
                     fetchMessages();
                 },
                 error: function(error) {
                     // TODO: Handle the error response
-                    console.error(error);
                 }
             });
         });
@@ -86,7 +84,6 @@
         // var messageId = $('#message-box').data('message-id');
         var messageId = '<?php echo $messageId ?>';
         function fetchMessages() {
-            console.log(messageId);
             $.ajax({
                 type: 'GET',
                 url: baseUrl + 'messageboard/Conversations/fetch/' + messageId + '/' + numberConvo + '/' + message,
@@ -152,7 +149,7 @@
                                 // TODO: Only show "Show More" button if the message exceeds 30 characters
                                 const showMoreButton = (messageText.length > 30) ? $('<button>', {
                                     'text': (isMessageShown ? 'Show Less' : 'Show More'),
-                                    'class': 'btn btn-link text-warning',
+                                    'class': 'btn btn-link text-warning font-weight-bold',
                                     'data-id' : element.Conversation.id,
                                     'click': function() {
                                         messagePreview.toggle();
@@ -167,13 +164,11 @@
                                                 'is_shown' : (isMessageShown) ? 0 : 1
                                             },
                                             success: function(response) {
-                                                console.log(response);
                                                 // TODO: This will fetch the response
                                                 fetchMessages();
                                             },
                                             error: function(error) {
                                                 // TODO: Handle the error response
-                                                console.error(error);
                                             }
                                         });
                                     }
@@ -235,7 +230,6 @@
                     // TODO: end
                 },
                 error: function(error) {
-                    console.error(error);
                 }
             });
         }
