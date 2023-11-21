@@ -1,6 +1,16 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-10">
+
+            <?php if (!$ifHasProfile): ?>
+                <div class="alert alert-info shadow" role="alert">
+                    Welcome aboard! 🚀 Congratulations on your first login! 🎉 
+                    To unlock the full potential of our platform, let's make your experience even 
+                    better by completing your profile setup. Your journey to discovering all 
+                    the incredible features begins now. Thank you for choosing us! 🌟
+                </div>
+            <?php endif;?>
+
             <div class="card shadow">
                 <div class="card-header bg-white">
                     Edit Profile / Account Details

@@ -1,7 +1,7 @@
 <?php
 App::uses('AppController', 'Controller');
 class UsersController extends AppController {
-	public $components = array('Session');
+	public $components = array('Session', 'Global');
 	public $name = 'Users';
 
 	public function beforeFilter() {
@@ -10,15 +10,28 @@ class UsersController extends AppController {
 	}
 
 	public function login() {
+		
 		if ($this->request->is('post')) {
 			if ($this->Auth->login()) {
 				$this->loadModel('User'); 
 				$user = $this->User->findById($this->Auth->user('id'));
-				if ($user) {
-					$user['User']['last_login_time'] = date('Y-m-d H:i:s');
-					$this->User->save($user, false, array('last_login_time'));
-				}
-				$this->redirect($this->Auth->redirect());
+				// TODO: this will update the login time of user upon successful login
+					if ($user) {
+						$user['User']['last_login_time'] = date('Y-m-d H:i:s');
+						$this->User->save($user, false, array('last_login_time'));
+					}
+				#end
+				/**
+				 * TODO: dertermin if logged in user has profile
+				 * ? if Yes, then redirect to inbox
+				 * ? if No, then redirect to profile add
+				 */
+					if ($this->Global->ifHasProfile()) {
+						$this->redirect(array('controller' => 'messages', 'action' => 'inbox'));
+					} else {
+						$this->redirect($this->Auth->redirect());
+					}
+				#end
 			} else {
 				$this->Session->setFlash('Your username/password is incorrect');
 			}
@@ -41,7 +54,9 @@ class UsersController extends AppController {
 	
 
 	public function thankyou() {
-		
+		/**
+		 * TODO: this will simply show the thank you page upon successful registration
+		 */
 	}
 
 	public function register() {
@@ -91,5 +106,6 @@ class UsersController extends AppController {
 		// TODO: Set the user data for the view
 			$this->set('user', $user);
 	}
-	
+
+
 }

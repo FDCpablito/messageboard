@@ -1,13 +1,8 @@
 <?php
 App::uses('AppController', 'Controller');
 class ProfilesController extends AppController {
-	public function initialize()
-	{
-		parent::initialize();
-		
-		// Load the Flash component
-		$this->loadComponent('Flash');
-	}
+
+	public $components = array('Session', 'Global');
 
 	public function view() {
 		$data = $this->Profile->find('all', [
@@ -39,6 +34,8 @@ class ProfilesController extends AppController {
 		if ($profileData) {
 			$this->set('profileData', $profileData);
 		}
+
+		$this->set('ifHasProfile', $this->Global->ifHasProfile());
 
 		if ($this->request->is(['patch', 'post', 'put'])) {
 

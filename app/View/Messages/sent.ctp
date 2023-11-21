@@ -133,9 +133,6 @@
                     card.append(cardBody);
 
                     sentBox.append(card);
-
-                    // <a href="#" id="show-more" class="btn text-center text-primary col-12">Show More</a>
-                    
                 });
                 const showMoreBtn = $('<a>', {
                     'id' : 'show-more',

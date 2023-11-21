@@ -29,7 +29,35 @@
 </div>
 
 <script>
-    $(document).ready(function() {
-        $('#recieverInput').select2();
+    var baseUrl = '<?php echo $this->Html->url('/'); ?>';
+
+    console.log(JSON.parse('<?php echo $options ?>'));
+    $('#recieverInput').select2({
+        data: JSON.parse('<?php echo $options ?>'),
+        templateResult: formatResult,
+        templateSelection: formatSelection,
     });
+
+    function formatResult(result) {
+        if (!result.id) {
+            return result.text;
+        }
+
+        //   var image = result.image ? result.image : '/admin/assets/img/profile.svg';
+        var image = `${baseUrl}profile/${result.image}`;
+        var option = $('<span><img src="' + image + '" class="rounded-circle" height="40" width="40" /> ' + result.text + '</span>');
+
+        return option;
+    }
+
+    function formatSelection(selection) {
+        if (!selection.id) {
+            return selection.text;
+        }
+
+        var image = `${baseUrl}profile/${selection.image}`;
+        var selectedOption = $('<span><img src="' + image + '" class="rounded-circle" height="15" width="15"/> ' + selection.text + '</span>');
+
+        return selectedOption;
+    }
 </script>
