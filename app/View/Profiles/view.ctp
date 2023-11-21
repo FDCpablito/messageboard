@@ -27,7 +27,7 @@
                     <div class="col-6 ">
                         <h2><?php echo h($profile['User']['name']); ?></h2>
                         <p><strong>Email:</strong> <?php echo h($profile['User']['email']); ?></p>
-                        <p><strong>Gender:</strong> <?php echo $profile['Profile']['gender'] ? 'Male' : 'Female'; ?></p>
+                        <p><strong>Gender:</strong> <?php echo ($profile['Profile']['gender'] == 0) ? 'Male' : 'Female'; ?></p>
                         <p><strong>Birthdate:</strong> <?php echo h(date('F d, Y', strtotime($profile['Profile']['birthdate']))); ?></p>
                         <p><strong>Joined:</strong> <?php echo h(date('F d, Y', strtotime($profile['User']['created'])))?></p>
                         <p><strong>Last Login:</strong> <?php echo h(date('F d, Y g:i A', strtotime($profile['User']['last_login_time'])))?></p>

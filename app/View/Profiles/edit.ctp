@@ -12,7 +12,7 @@
             <?php endif;?>
 
             <div class="card shadow">
-                <div class="card-header bg-white">
+                <div class="card-header">
                     Edit Profile / Account Details
                 </div>
                 <div class="card-body">
@@ -62,6 +62,7 @@
                                     
                                     echo $this->Form->input('gender', [
                                         'type' => 'radio',
+                                        'class' => 'class btn btn-primary',
                                         'options' => [
                                             '0' => 'Male',
                                             '1' => 'Female',
@@ -123,7 +124,7 @@
                                     ]);
                                     echo $this->Form->input('gender', [
                                         'type' => 'radio',
-                                        'class' => 'form-control row',
+                                        'class' => 'class btn btn-primary',
                                         'options' => [
                                             '0' => 'Male',
                                             '1' => 'Female',
