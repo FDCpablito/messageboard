@@ -4,6 +4,8 @@ App::uses('AppController', 'Controller');
  * Messages Controller
  */
 class MessagesController extends AppController {
+	
+	public $components = array('Session', 'Global');
 
 	/**
 	 * TODO: this will display or the received message or inbox
@@ -19,7 +21,7 @@ class MessagesController extends AppController {
 			$this->set('messages', $messages);
 
 			// TODO: pass if has profile result
-			$this->set('ifHasProfile', $this->ifHasProfile());
+			$this->set('ifHasProfile', $this->Global->ifHasProfile());
 		} 
 
 	/**
@@ -37,7 +39,7 @@ class MessagesController extends AppController {
 			$this->set('messages', $messages);
 			
 			// TODO: pass if has profile result
-			$this->set('ifHasProfile', $this->ifHasProfile());
+			$this->set('ifHasProfile', $this->Global->ifHasProfile());
 		}
 
 	/**
@@ -178,19 +180,4 @@ class MessagesController extends AppController {
 			echo json_encode($messages);
 		}
 
-		
-	/**
-	 * TODO: this will determine if user has profile
-	 * ? If not the user will be redirected to add / update profiles page
-	 * ? IF Yes, proceed accordingly
-	 */
-		private function ifHasProfile() {
-			$userId = $this->Auth->user('id');
-
-			$this->loadModel('Profile');
-
-			$profile = $this->Profile->findById($userId);
-
-			return ($profile) ? true : false;
-		}
 }

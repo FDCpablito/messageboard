@@ -35,7 +35,7 @@ class AppController extends Controller {
         // 'DebugKit.Toolbar',
         'Session',
         'Auth' => array(
-            'loginRedirect' => array('controller' => 'profiles', 'action' => 'view'),
+            'loginRedirect' => array('controller' => 'profiles', 'action' => 'edit'),
             'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),
             'authError' => 'You can\'t access the page',
             'authorize' => array('Controller'),
