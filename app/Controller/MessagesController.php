@@ -5,93 +5,127 @@ App::uses('AppController', 'Controller');
  */
 class MessagesController extends AppController {
 
-	public function inbox() {
-		$messages = $this->Message->find('all', [
-			'conditions' => [
-				'receiver' => $this->Auth->user('id'),
-			],
-			'limit' => 3,
-			'order' => ['Message.id' => 'DESC']
-		]);
-		$this->set('messages', $messages);
+	/**
+	 * TODO: this will display or the received message or inbox
+	 */
+		public function inbox() {
+			$messages = $this->Message->find('all', [
+				'conditions' => [
+					'receiver' => $this->Auth->user('id'),
+				],
+				'limit' => 3,
+				'order' => ['Message.id' => 'DESC']
+			]);
+			$this->set('messages', $messages);
 
-		// TODO: pass if has profile result
-		$this->set('ifHasProfile', $this->ifHasProfile());
-	} 
+			// TODO: pass if has profile result
+			$this->set('ifHasProfile', $this->ifHasProfile());
+		} 
 
-	public function sent() {
-		$this->loadModel('User');
-		$messages = $this->Message->find('all', [
-			'conditions' => [
-				'user_id' => $this->Auth->user('id'),
-			],
-			'limit' => 3,
-			'order' => ['Message.id' => 'DESC']
-		]);
-		$this->set('messages', $messages);
-		
-		// TODO: pass if has profile result
-		$this->set('ifHasProfile', $this->ifHasProfile());
-	}
+	/**
+	 * TODO: this will display all the sent images
+	 */
+		public function sent() {
+			$this->loadModel('User');
+			$messages = $this->Message->find('all', [
+				'conditions' => [
+					'user_id' => $this->Auth->user('id'),
+				],
+				'limit' => 3,
+				'order' => ['Message.id' => 'DESC']
+			]);
+			$this->set('messages', $messages);
+			
+			// TODO: pass if has profile result
+			$this->set('ifHasProfile', $this->ifHasProfile());
+		}
 
-	public function add() {
-		$this->loadModel('User');
+	/**
+	 * TODO: allow adding of message
+	 * ? this will also access or view the add.ctp UI
+	 */
+		public function add() {
+			$this->loadModel('User'); //* load user model
 
-		$options = $this->User->find('list', [
-			'fields' => ['User.id', 'User.name'],
-			'conditions' => ['User.id !=' => $this->Auth->user('id')],
-		]);
-		$this->set('options', $options);
-
-		if ($this->request->is('post')) {
-			$this->request->data['Message']['user_id'] = $this->Auth->user('id');
-			if ($this->Message->save($this->request->data)) {
-				// TODO: get the latest message id
-				$latestId = $this->Message->find('all', [
-					'order' => ['Message.id' => 'DESC'],
-					'limit' => 1,
-				])[0]['Message']['id'];
-				// TODO: save to conversation table
-				$this->saveToConversation(
-					$latestId,
-					$this->Auth->user('id'),
-					$this->request->data['Message']['receiver'],
-					$this->request->data['Message']['message']
-				);	
-				$this->Session->setFlash('Message Sent', 'default', array('class' => 'success'));
-				return $this->redirect(array('action' => 'sent'));
-			} else {
-				$this->Session->setFlash('Failed to send message');
-			}
-		}		
-	}
-
-	private function saveToConversation($messageId, $senderId, $receiver_id, $message) {
-		$this->loadModel('Conversation');
-		$data = [
-			'message_id' => $messageId,
-			'sender_id' => $senderId,
-			'receiver_id' => $receiver_id,
-			'message' => $message
-		];	
-		return ($this->Conversation->save($data)) ? true : false;
-}
-
-	public function delete($id) {
-		$this->autoRender = false;
-
-		$data = $this->Message->findById($id);
-		// TODO: delete message by id
-			if($this->request->is('post')) {
-				$this->Message->id = $id;
-				if ($this->Message->delete($this->request->data)) {
-					echo json_encode([
-						'status' => 'success',
-						'message' => 'Data deleted successfully'
+			// TODO: this will set the user data that is readable for the select 2
+				$options = [];
+				$users = $this->User->find('all', [
+					'fields' => ['User.id', 'User.name', 'Profile.profile'],
+					'conditions' => [
+						'User.id !=' => $this->Auth->user('id'),
+						'Profile.profile IS NOT NULL'
+					]
+				]);
+				
+				foreach ($users as $key => $value) {
+					array_push($options, [
+						'id' => $value['User']['id'],
+						'text' => $value['User']['name'],
+						'image' => $value['Profile']['profile']
 					]);
 				}
-			}
-	}
+				$this->set('options', json_encode($options));
+				
+			# end
+			
+			/**
+			 * TODO: this will allow saving of message upon form submit
+			 */
+				if ($this->request->is('post')) {
+					$this->request->data['Message']['user_id'] = $this->Auth->user('id');
+					if ($this->Message->save($this->request->data)) {
+						// TODO: get the latest message id
+							$latestId = $this->Message->find('all', [
+								'order' => ['Message.id' => 'DESC'],
+								'limit' => 1,
+							])[0]['Message']['id'];
+						// TODO: save to conversation table
+							$this->saveToConversation(
+								$latestId,
+								$this->Auth->user('id'),
+								$this->request->data['Message']['receiver'],
+								$this->request->data['Message']['message']
+							);	
+						$this->Session->setFlash('Message Sent', 'default', array('class' => 'success'));
+						return $this->redirect(array('action' => 'sent')); //* redirect to sent.ctp view
+					} else {
+						$this->Session->setFlash('Failed to send message');
+					}
+				}		
+		}
+
+	/**
+	 * TODO: this will allow saving of message to conversations table
+	 */
+		private function saveToConversation($messageId, $senderId, $receiver_id, $message) {
+			$this->loadModel('Conversation');
+			$data = [
+				'message_id' => $messageId,
+				'sender_id' => $senderId,
+				'receiver_id' => $receiver_id,
+				'message' => $message
+			];	
+			return ($this->Conversation->save($data)) ? true : false;
+		}
+
+	/**
+	 * TODO: allow delete message
+	 */
+		public function delete($id) {
+			$this->autoRender = false;
+
+			$data = $this->Message->findById($id);
+			// TODO: delete message by id
+				if($this->request->is('post')) {
+					$this->Message->id = $id;
+					if ($this->Message->delete($this->request->data)) {
+						echo json_encode([
+							'status' => 'success',
+							'message' => 'Data deleted successfully'
+						]);
+					}
+				}
+		}
 
 	/**
 	 * TODO: fetch sent box based on number of given items
