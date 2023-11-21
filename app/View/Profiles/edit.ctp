@@ -59,6 +59,7 @@
                                         'value' => $profileData['Profile']['birthdate'],
                                         'class' => 'form-control'
                                     ]);
+                                    
                                     echo $this->Form->input('gender', [
                                         'type' => 'radio',
                                         'options' => [
@@ -122,6 +123,7 @@
                                     ]);
                                     echo $this->Form->input('gender', [
                                         'type' => 'radio',
+                                        'class' => 'form-control row',
                                         'options' => [
                                             '0' => 'Male',
                                             '1' => 'Female',

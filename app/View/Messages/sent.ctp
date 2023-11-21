@@ -40,7 +40,11 @@
                 <?php endif ?>
             </div>
         <?php else: ?>
-            <h5 class="text-center">Please set up your <?php echo $this->Html->link('Profile', array('controller' => 'profiles', 'action' => 'edit')); ?> before sending any messages.</h5>
+            <div class="alert alert-info shadow col-8" role="alert">
+                To maximize your interaction on our platform, please take a moment to set up your <?php echo $this->Html->link('Profile', array('controller' => 'profiles', 'action' => 'edit')); ?> . 
+                This step is essential for enabling message sending capabilities. 
+                We're excited to have you fully engaged, and appreciate your prompt attention to this matter! 🌐💬
+            </div>
         <?php endif ;?>
     </div>
 </div>
