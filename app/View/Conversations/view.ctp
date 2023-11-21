@@ -81,10 +81,12 @@
      */
         let numberConvo = 10; // * holds the limit or the number message to fetch
         var message = 'no search';
+        var convoCounter = 0;
+        var baseUrl = '<?php echo $this->Html->url('/'); ?>';
+        // var messageId = $('#message-box').data('message-id');
+        var messageId = '<?php echo $messageId ?>';
         function fetchMessages() {
-            var convoCounter = 0;
-            var baseUrl = '<?php echo $this->Html->url('/'); ?>';
-            var messageId = $('#message-box').data('message-id');
+            console.log(messageId);
             $.ajax({
                 type: 'GET',
                 url: baseUrl + 'messageboard/Conversations/fetch/' + messageId + '/' + numberConvo + '/' + message,

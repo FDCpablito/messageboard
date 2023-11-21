@@ -8,16 +8,17 @@
                 <div class="card-body">
                     <div class="form-group">
                         <?php
-                            echo $this->Form->create('Message');
+                            echo $this->Form->create('Message', array('id' => 'messageForm'));
                             echo $this->Form->input('receiver', array(
                                 'type' => 'select',
-                                'id' => 'recieverInput',
+                                'id' => 'receiverInput',
                                 'options' => $options,
                                 'class' => 'form-control'
                             ));
                             echo $this->Form->input('message', array(
                                 'type' => 'textarea',
-                                'class' => 'form-control'
+                                'class' => 'form-control',
+                                'id' => 'messageInput'
                             ));
                             echo $this->Form->end('Send Message');
                         ?>
@@ -31,8 +32,7 @@
 <script>
     var baseUrl = '<?php echo $this->Html->url('/'); ?>';
 
-    console.log(JSON.parse('<?php echo $options ?>'));
-    $('#recieverInput').select2({
+    $('#receiverInput').select2({
         data: JSON.parse('<?php echo $options ?>'),
         templateResult: formatResult,
         templateSelection: formatSelection,
@@ -43,7 +43,6 @@
             return result.text;
         }
 
-        //   var image = result.image ? result.image : '/admin/assets/img/profile.svg';
         var image = `${baseUrl}profile/${result.image}`;
         var option = $('<span><img src="' + image + '" class="rounded-circle" height="40" width="40" /> ' + result.text + '</span>');
 
@@ -60,4 +59,24 @@
 
         return selectedOption;
     }
+
+    $(document).ready(function () {
+        $('#messageForm').submit(function (e) {
+            var message = $('#messageInput').val();
+
+            if (message.trim() === '') {
+                e.preventDefault();
+                displayError('Message is required');
+            }
+        });
+
+        function displayError(message) {
+            var errorDiv = $('<div class="alert alert-danger">' + message + '</div>');
+            $('.card-body').prepend(errorDiv);
+
+            setTimeout(function () {
+                errorDiv.fadeOut('slow');
+            }, 1000);
+        }
+    });
 </script>
