@@ -1,3 +1,5 @@
+Updated database structure as of - November 21, 2023
+
 Databse Name: 
     messageboard
 
@@ -32,6 +34,7 @@ Database Table and Structure:
         `created` datetime NOT NULL,
         `modified` datetime NOT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 
     CREATE TABLE `conversations` (
         `id` int(11) NOT NULL,
